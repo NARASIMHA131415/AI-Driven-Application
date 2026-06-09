@@ -14,59 +14,34 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
-/* MODERN SAAS DESIGN SYSTEM */
+/* PREMIUM SAAS BENTO-GRID & MICRO-INTERACTIONS */
 :root {
-    /* Colors */
-    --bg-page: #fafafa;
+    --bg-page: #f4f4f5;
     --bg-surface: #ffffff;
-    --bg-surface-hover: #f9fafb;
-    --border-color: #eaeaea;
+    --bg-surface-hover: #fafafa;
+    --border-color: rgba(228, 228, 231, 0.8);
     
-    /* Text */
-    --text-primary: #111827;
-    --text-secondary: #6b7280;
-    --text-tertiary: #9ca3af;
+    --text-primary: #09090b;
+    --text-secondary: #71717a;
+    --text-tertiary: #a1a1aa;
     
-    /* Accents (Stripe/Linear inspired) */
     --accent-primary: #000000;
-    --accent-hover: #333333;
-    --accent-blue: #0066cc;
-    --accent-blue-bg: #f0f6ff;
+    --accent-hover: #27272a;
     
-    /* Status */
-    --risk-high-bg: #fef2f2;
-    --risk-high-text: #ef4444;
-    --risk-high-border: #fca5a5;
-    
-    --risk-med-bg: #fffbeb;
-    --risk-med-text: #f59e0b;
-    --risk-med-border: #fcd34d;
-    
-    --risk-low-bg: #f0fdf4;
-    --risk-low-text: #10b981;
-    --risk-low-border: #6ee7b7;
+    --risk-high-bg: #fef2f2; --risk-high-text: #ef4444; --risk-high-border: #fca5a5;
+    --risk-med-bg: #fffbeb;  --risk-med-text: #f59e0b;  --risk-med-border: #fcd34d;
+    --risk-low-bg: #f0fdf4;  --risk-low-text: #10b981;  --risk-low-border: #6ee7b7;
 
-    /* Metrics Colors */
-    --chart-1: #111827;
-    --chart-2: #3b82f6;
-    --chart-3: #8b5cf6;
-    --chart-4: #10b981;
-    --chart-5: #f59e0b;
+    --font-sans: 'Inter', -apple-system, sans-serif;
     
-    /* Typography */
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
     
-    /* Spacing & Radii */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-    --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    --shadow-float: 0 20px 40px -15px rgba(0,0,0,0.05);
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.02), 0 10px 20px -5px rgba(0,0,0,0.03);
+    --shadow-glow: 0 0 20px rgba(0, 0, 0, 0.05);
 }
 
 body {
@@ -74,168 +49,199 @@ body {
     background-color: var(--bg-page);
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    overflow-x: hidden;
 }
 
-/* Typography Overrides */
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-weight: 700;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
 }
 
-.text-muted {
-    color: var(--text-secondary) !important;
+.text-muted { color: var(--text-secondary) !important; }
+
+/* ANIMATIONS */
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Sidebar Modernization (Light theme, sleek) */
+@keyframes slideInLeft {
+    0% { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulseSoft {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.animate-fade-up {
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* Structural Background Magic */
+.app-bg-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 380px;
+    background: linear-gradient(140deg, #ffffff 0%, #f4f4f5 100%);
+    border-bottom: 1px solid var(--border-color);
+    z-index: -1;
+}
+
+/* Sidebar */
 .sidebar {
-    background-color: var(--bg-page);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-right: 1px solid var(--border-color);
     min-height: 100vh;
     position: fixed;
-    width: 260px;
+    width: 270px;
     z-index: 1000;
-    transition: all 0.2s ease;
+    animation: slideInLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .sidebar-header {
-    padding: 24px 20px;
-    background-color: transparent;
-    border-bottom: 1px solid var(--border-color);
+    padding: 32px 24px;
+    background: transparent;
 }
 
 .sidebar-header h4 {
-    color: var(--text-primary) !important;
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-}
-
-.sidebar-header i {
-    color: var(--accent-primary);
+    font-size: 1.25rem;
+    background: linear-gradient(90deg, #000, #444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .sidebar-menu {
+    padding: 0 16px;
     list-style: none;
-    padding: 16px 12px;
     margin: 0;
-}
-
-.sidebar-menu li {
-    margin-bottom: 4px;
 }
 
 .sidebar-menu li a {
     display: flex;
     align-items: center;
-    padding: 10px 16px;
+    padding: 12px 16px;
+    margin-bottom: 6px;
     color: var(--text-secondary);
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
     border-radius: var(--radius-md);
-    transition: all 0.15s ease;
-    border-left: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
 }
 
 .sidebar-menu li a i {
     margin-right: 12px;
-    font-size: 1rem;
+    font-size: 1.05rem;
     width: 20px;
     text-align: center;
-    opacity: 0.7;
+    transition: transform 0.2s ease;
 }
 
 .sidebar-menu li a:hover {
     color: var(--text-primary);
-    background-color: var(--bg-surface-hover);
+    background: rgba(0,0,0,0.03);
+    transform: translateX(4px);
+}
+.sidebar-menu li a:hover i {
+    transform: scale(1.1);
 }
 
 .sidebar-menu li a.active {
     color: var(--text-primary);
-    background-color: var(--border-color);
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid var(--border-color);
     font-weight: 600;
 }
-.sidebar-menu li a.active i {
-    opacity: 1;
-    color: var(--accent-primary);
+.sidebar-menu li a.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 60%;
+    width: 3px;
+    background: var(--accent-primary);
+    border-radius: 0 4px 4px 0;
 }
 
-/* Main Content */
+/* Main Content Wrapper */
 .main-content {
-    margin-left: 260px;
-    padding: 40px;
+    margin-left: 270px;
+    padding: 40px 48px;
     min-height: 100vh;
+    position: relative;
 }
 
 header {
-    border-bottom: 1px solid var(--border-color) !important;
-    margin-bottom: 32px !important;
-    padding-bottom: 24px !important;
+    margin-bottom: 40px !important;
+    border-bottom: none !important;
+    animation: fadeInUp 0.5s ease forwards;
 }
 
 header h2 {
-    font-size: 1.75rem;
-    margin-bottom: 4px !important;
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 8px !important;
 }
 
-header p {
-    font-size: 0.95rem;
-}
-
-/* Premium Buttons */
-.btn {
-    border-radius: var(--radius-md);
-    font-weight: 500;
-    font-size: 0.875rem;
-    padding: 8px 16px;
-    letter-spacing: -0.01em;
-    transition: all 0.15s ease;
-    box-shadow: var(--shadow-sm);
-}
-
-.btn-primary, .btn-teal {
-    background-color: var(--accent-primary) !important;
-    border-color: var(--accent-primary) !important;
-    color: #fff !important;
-}
-
-.btn-primary:hover, .btn-teal:hover {
-    background-color: var(--accent-hover) !important;
-    border-color: var(--accent-hover) !important;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-outline-secondary {
-    background-color: var(--bg-surface);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-
-.btn-outline-secondary:hover {
-    background-color: var(--bg-surface-hover);
-    color: var(--text-primary);
-    border-color: #d1d5db;
-}
-
-/* Cards (Glassmorphism & Crisp borders) */
-.dashboard-card, .kpi-card {
-    background-color: var(--bg-surface);
-    border: 1px solid var(--border-color);
+/* Bento/KPI Cards with Micro-interactions */
+.kpi-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.5);
     border-radius: var(--radius-lg);
     padding: 24px;
-    margin-bottom: 24px;
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,1);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
 }
 
-.kpi-card:hover, .dashboard-card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-    border-color: #d1d5db;
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transform: skewX(-20deg);
+}
+
+.kpi-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: var(--shadow-float), 0 0 0 1px var(--border-color);
+    background: #ffffff;
+}
+
+.kpi-card:hover::before {
+    left: 200%;
+    transition: 0.7s ease-in-out;
+}
+
+.kpi-card h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
 }
 
 .kpi-icon {
@@ -243,151 +249,121 @@ header p {
     position: absolute;
     right: 24px;
     top: 24px;
-    color: var(--text-tertiary);
-    background: var(--bg-page);
-    padding: 12px;
+    color: var(--text-primary);
+    background: #f4f4f5;
+    padding: 14px;
     border-radius: var(--radius-md);
+    transition: transform 0.3s ease;
+}
+.kpi-card:hover .kpi-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* Dashboard Cards (Charts/Tables) */
+.dashboard-card {
+    background: #ffffff;
     border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+}
+.dashboard-card:hover {
+    box-shadow: var(--shadow-float);
+    border-color: #d4d4d8;
 }
 
-/* Tables (Linear style) */
-.table-custom {
-    width: 100%;
-    margin-bottom: 0;
-    border-collapse: separate;
-    border-spacing: 0;
+/* Buttons */
+.btn {
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 10px 20px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-.table-custom thead {
-    background-color: transparent;
+.btn-primary, .btn-teal {
+    background: linear-gradient(180deg, #18181b 0%, #000000 100%) !important;
+    border: 1px solid #000 !important;
+    color: #fff !important;
 }
 
+.btn-primary:hover, .btn-teal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px -3px rgba(0,0,0,0.2);
+}
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-outline-secondary {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+.btn-outline-secondary:hover {
+    background: var(--bg-surface-hover);
+    border-color: #a1a1aa;
+    transform: translateY(-2px);
+}
+
+/* Pulse indicator for live metrics */
+.live-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulseSoft 2s infinite;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+/* Tables */
 .table-custom th {
-    font-weight: 500;
-    text-transform: none;
-    font-size: 0.8rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     color: var(--text-secondary);
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border-color);
-    border-top: none;
+    border-bottom: 2px solid var(--border-color);
+    padding: 16px;
 }
-
 .table-custom td {
     padding: 16px;
     font-size: 0.875rem;
-    color: var(--text-primary);
     border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
+    transition: background 0.2s;
 }
-
 .table-custom tbody tr:hover td {
-    background-color: var(--bg-surface-hover);
+    background-color: rgba(0,0,0,0.02);
 }
 
 /* Badges */
 .badge {
-    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
     font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: var(--radius-xl);
-    letter-spacing: 0;
+    letter-spacing: -0.01em;
 }
 
-.badge-risk.risk-high-badge, .bg-danger { 
-    background-color: var(--risk-high-bg) !important; 
-    color: var(--risk-high-text) !important;
-    border: 1px solid var(--risk-high-border);
-}
-.badge-risk.risk-medium-badge, .bg-warning { 
-    background-color: var(--risk-med-bg) !important; 
-    color: var(--risk-med-text) !important;
-    border: 1px solid var(--risk-med-border);
-}
-.badge-risk.risk-low-badge, .bg-success { 
-    background-color: var(--risk-low-bg) !important; 
-    color: var(--risk-low-text) !important;
-    border: 1px solid var(--risk-low-border);
-}
-
-/* Loading Overlay Glassmorphism */
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(250, 250, 250, 0.7);
-    backdrop-filter: blur(8px);
-    z-index: 2000;
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.spinner-border {
-    color: var(--accent-primary) !important;
+/* Smooth Tabs */
+.tab-panel { display: none; opacity: 0; }
+.tab-panel.active { 
+    display: block; 
+    animation: fadeInUp 0.5s ease forwards; 
 }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
 
-/* Forms */
-.form-control, .form-select {
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.2s ease;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
-}
-
-.form-label {
-    font-weight: 500;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-}
-
-/* Utilities */
-.text-slate { color: var(--text-primary); }
-.text-teal { color: var(--accent-primary) !important; }
-.border-start.border-4 { border-left-width: 3px !important; }
-
-/* Dashboard Card internal tweaks */
-.dashboard-card .p-2.border {
-    border-color: var(--border-color) !important;
-    background-color: var(--bg-page);
-    border-radius: var(--radius-md) !important;
-}
-
-.tab-panel { display: none; animation: fadeIn 0.3s ease; }
-.tab-panel.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Chart Container */
-.chart-container {
-    position: relative;
-    height: 320px;
-    width: 100%;
-}
+.chart-container { position: relative; height: 320px; width: 100%; }
 </style>
 </head>
 <body>
@@ -424,6 +400,7 @@ header p {
 
     <!-- Main Content Grid -->
     <div class="main-content">
+        <div class="app-bg-accent"></div>
 
         {% if empty_state %}
         <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 80vh; text-align: center;">
@@ -444,7 +421,7 @@ header p {
         <!-- Top Navigation Header -->
         <header class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
             <div>
-                <h2 class="fw-bold m-0" id="pageTitle">Overview Dashboard</h2>
+                <h2 class="fw-bold m-0" id="pageTitle"><span class="live-indicator"></span>Overview Dashboard</h2>
                 <p class="text-muted m-0">AI-driven purchase prediction, churn risk estimation, and portfolio analytics.</p>
             </div>
             <div class="d-flex gap-2">
@@ -468,15 +445,15 @@ header p {
         <div class="tab-panel active" id="overview">
             <!-- KPI Cards Row -->
             <div class="row g-4 mb-4">
-                <div class="col-md-3">
+                <div class="col-md-3 animate-fade-up">
                     <div class="kpi-card">
                         <span class="text-muted d-block uppercase small fw-semibold">Total Revenue Portfolio</span>
                         <h3 class="fw-bold mt-2 mb-0" id="kpi-revenue">${{ "{:,.2f}".format(total_revenue) }}</h3>
-                        <span class="text-success small fw-semibold mt-1 d-block"><i class="fa-solid fa-arrow-trend-up"></i> +3.5% Forecast MoM</span>
+                        <span class="text-success small fw-semibold mt-1 d-block"><i class="fa-solid fa-arrow-trend-up fa-bounce"></i> +3.5% Forecast MoM</span>
                         <i class="fa-solid fa-wallet kpi-icon text-primary opacity-10"></i>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 animate-fade-up">
                     <div class="kpi-card">
                         <span class="text-muted d-block uppercase small fw-semibold">Active Profiles Analyzed</span>
                         <h3 class="fw-bold mt-2 mb-0" id="kpi-customers">{{ active_customers }}</h3>
@@ -484,7 +461,7 @@ header p {
                         <i class="fa-solid fa-users kpi-icon text-primary opacity-10"></i>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 animate-fade-up">
                     <div class="kpi-card">
                         <span class="text-muted d-block uppercase small fw-semibold">At-Risk Accounts</span>
                         <h3 class="fw-bold mt-2 mb-0 text-danger" id="kpi-high-risk">{{ high_risk_count }}</h3>
@@ -492,7 +469,7 @@ header p {
                         <i class="fa-solid fa-user-xmark kpi-icon text-danger opacity-10"></i>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 animate-fade-up">
                     <div class="kpi-card">
                         <span class="text-muted d-block uppercase small fw-semibold">Avg. Engagement Score</span>
                         <h3 class="fw-bold mt-2 mb-0" id="kpi-engagement">{{ avg_engagement }}/10</h3>
@@ -503,8 +480,8 @@ header p {
             </div>
 
             <!-- Visualization Row 1 -->
-            <div class="row mb-4">
-                <div class="col-md-4">
+            <div class="row mb-4 animate-fade-up">
+                <div class="col-md-4 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-3 text-slate">Attrition & Churn Risk Profile</h5>
                         <div class="chart-container">
@@ -512,7 +489,7 @@ header p {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-3">Revenue Projection Forecast (6 Months)</h5>
                         <div class="chart-container">
@@ -524,7 +501,7 @@ header p {
 
             <!-- Visualization Row 2 -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-3">Top Product Categories By Revenue</h5>
                         <div class="chart-container">
@@ -532,7 +509,7 @@ header p {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-3">Customer Cohort Segment Distributions</h5>
                         <div class="chart-container">
@@ -665,7 +642,7 @@ header p {
         <div class="tab-panel" id="segmentation">
             <div class="row g-4 mb-4">
                 <!-- Cluster Controls -->
-                <div class="col-md-4">
+                <div class="col-md-4 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-4"><i class="fa-solid fa-sliders me-2"></i>Segmentation Parameters</h5>
                         
@@ -702,7 +679,7 @@ header p {
                 </div>
 
                 <!-- 2D PCA Cluster Scatter Plot -->
-                <div class="col-md-8">
+                <div class="col-md-8 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-3"><i class="fa-solid fa-diagram-project me-2"></i>Multi-Dimensional Cluster Plot (PCA 2D Projection)</h5>
                         <p class="text-muted small">This plot projects our high-dimensional numeric vectors (Income, Spending, Engagement, and CSAT scores) into a 2D space for easy mathematical visualization of boundaries.</p>
@@ -717,7 +694,7 @@ header p {
             <h5 class="fw-bold mb-3"><i class="fa-solid fa-layer-group me-2"></i>Computed Cluster Segmentation Cohort Metrics</h5>
             <div class="row g-4" id="segmentCardsRow">
                 {% for s in segment_stats %}
-                <div class="col-md-4">
+                <div class="col-md-4 animate-fade-up">
                     <div class="dashboard-card h-100 border-top border-4 border-teal">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <span class="badge badge-segment segment-regular">{{ s.label }}</span>
@@ -952,7 +929,7 @@ header p {
         <div class="tab-panel" id="market">
             <div class="row g-4 mb-4">
                 <!-- Demand Forecasting Table -->
-                <div class="col-md-6">
+                <div class="col-md-6 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-4"><i class="fa-solid fa-chart-column me-2"></i>Product Category Demand Forecasting</h5>
                         <p class="text-muted small">Predicts estimated physical item demand (units) for the upcoming business month computed via historical engagement metrics.</p>
@@ -989,7 +966,7 @@ header p {
                 </div>
 
                 <!-- Seasonal trends -->
-                <div class="col-md-6">
+                <div class="col-md-6 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-4"><i class="fa-solid fa-snowflake-sun me-2"></i>Seasonal Purchase Trends Analysis</h5>
                         <p class="text-muted small">Tracks client transaction volume distribution across seasonal quadrants (Summer, Spring, Autumn, Winter).</p>
@@ -1040,7 +1017,7 @@ header p {
         <div class="tab-panel" id="reports">
             <div class="row g-4">
                 <!-- Upload Dataset -->
-                <div class="col-md-6">
+                <div class="col-md-6 animate-fade-up">
                     <div class="dashboard-card h-100">
                         <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-arrow-up me-2"></i>Upload Customer Spreadsheet</h5>
                         <p class="text-muted small">Import your company's customer dataset. Upload columns (Customer ID, Name, Income, Purchase Amount, EMI status, subscription details) as CSV formats.</p>
@@ -1058,7 +1035,7 @@ header p {
                 </div>
 
                 <!-- Export Executive Reports -->
-                <div class="col-md-6">
+                <div class="col-md-6 animate-fade-up">
                     <div class="dashboard-card h-100 d-flex flex-column justify-content-between">
                         <div>
                             <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-invoice-dollar me-2"></i>Executive Reports Downloads</h5>
@@ -1095,19 +1072,19 @@ header p {
                     </div>
                     <div class="modal-body p-4">
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Customer ID <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="customer_id" id="form-customer_id" placeholder="CUST-1051" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Customer Full Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="name" id="form-name" placeholder="Johnathan Doe" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 animate-fade-up">
                                 <label class="form-label">Age <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" name="age" id="form-age" min="18" max="100" value="35" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 animate-fade-up">
                                 <label class="form-label">Gender <span class="text-danger">*</span></label>
                                 <select class="form-select" name="gender" id="form-gender">
                                     <option value="Male">Male</option>
@@ -1115,19 +1092,19 @@ header p {
                                     <option value="Non-binary">Non-binary</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 animate-fade-up">
                                 <label class="form-label">Location / City <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="location" id="form-location" placeholder="New York" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Annual Income ($) <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" name="income" id="form-income" min="0" value="65000" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Engagement Score (1-10) <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" name="engagement_score" id="form-engagement_score" min="1" max="10" value="6" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Product Category Purchased <span class="text-danger">*</span></label>
                                 <select class="form-select" name="product_purchased" id="form-product_purchased">
                                     <option value="Electronics">Electronics</option>
@@ -1140,27 +1117,27 @@ header p {
                                     <option value="Office Supplies">Office Supplies</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Purchase Amount ($) <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" name="purchase_amount" id="form-purchase_amount" step="0.01" min="1" value="250" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Annual Purchase Frequency <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" name="purchase_frequency" id="form-purchase_frequency" min="1" value="8" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Customer Satisfaction Score (1-5) <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" name="customer_satisfaction_score" id="form-customer_satisfaction_score" min="1" max="5" value="4" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 animate-fade-up">
                                 <label class="form-label">EMI Monthly Amount ($)</label>
                                 <input type="number" class="form-control" name="emi_amount" id="form-emi_amount" step="0.01" value="0">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 animate-fade-up">
                                 <label class="form-label">EMI Tenure (Months)</label>
                                 <input type="number" class="form-control" name="emi_tenure" id="form-emi_tenure" value="0">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 animate-fade-up">
                                 <label class="form-label">EMI Status</label>
                                 <select class="form-select" name="emi_status" id="form-emi_status">
                                     <option value="N/A">N/A</option>
@@ -1169,7 +1146,7 @@ header p {
                                     <option value="Defaulted">Defaulted</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Subscription Tier</label>
                                 <select class="form-select" name="subscription_type" id="form-subscription_type">
                                     <option value="None">None</option>
@@ -1178,15 +1155,15 @@ header p {
                                     <option value="Premium">Premium</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Subscription Expiry Date</label>
                                 <input type="text" class="form-control" name="subscription_expiry_date" id="form-subscription_expiry_date" placeholder="YYYY-MM-DD or N/A" value="N/A">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Last Purchase Date</label>
                                 <input type="date" class="form-control" name="last_purchase_date" id="form-last_purchase_date">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 animate-fade-up">
                                 <label class="form-label">Attrition / Churned Status</label>
                                 <select class="form-select" name="churned" id="form-churned">
                                     <option value="0">Active Customer (0)</option>
@@ -1884,7 +1861,7 @@ header p {
             segCardRow.innerHTML = "";
             data.segment_stats.forEach(s => {
                 segCardRow.innerHTML += `
-                    <div class="col-md-4">
+                    <div class="col-md-4 animate-fade-up">
                         <div class="dashboard-card h-100 border-top border-4 border-teal">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <span class="badge badge-segment segment-regular">${s.label}</span>
@@ -2070,5 +2047,5 @@ header p {
             importanceChart.update();
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a08d8755aaa47eee',t:'MTc4MDk4MDc2NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a08dbaaaf940d988',t:'MTc4MDk4Mjg2Nw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
