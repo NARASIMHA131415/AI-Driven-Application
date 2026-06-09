@@ -1,0 +1,151 @@
+Customer ID,Name,Age,Gender,Location,Income,Product Purchased,Purchase Amount,Purchase Frequency,EMI Amount,EMI Tenure,EMI Status,Subscription Type,Subscription Expiry Date,Last Purchase Date,Engagement Score,Customer Satisfaction Score,Churned
+CUST-1001,Linda Johnson,45,Non-binary,Phoenix,54926,Books,459.53,6,29.39,3,Active,None,N/A,2025-08-09,2,1,1
+CUST-1002,Jane Garcia,37,Male,Houston,53185,Electronics,37.01,7,4.5,24,Active,Premium,2026-04-01,2025-10-21,1,2,1
+CUST-1003,John Hernandez,42,Non-binary,San Antonio,25300,Beauty Products,20.0,1,1.31,12,Paid,None,N/A,2026-04-21,3,3,0
+CUST-1004,Matthew Thompson,43,Non-binary,Phoenix,44449,Electronics,20.0,1,2.07,18,Defaulted,None,N/A,2025-08-29,2,4,1
+CUST-1005,Michelle White,33,Non-binary,Houston,46663,Fashion,221.8,1,0.0,0,N/A,Basic,2026-05-07,2026-04-28,4,4,0
+CUST-1006,William Harris,36,Female,San Diego,32676,Beauty Products,25.95,3,2.26,6,Active,Standard,2026-12-04,2025-06-23,3,5,0
+CUST-1007,Kenneth Hernandez,49,Non-binary,Houston,42687,Home Appliances,20.0,5,1.76,24,Defaulted,Basic,2026-11-25,2025-12-23,1,5,0
+CUST-1008,Mary Anderson,42,Male,Philadelphia,57279,Sports Equipment,20.0,7,1.13,24,Paid,Standard,2026-03-28,2025-07-07,1,3,1
+CUST-1009,Sandra Martinez,34,Female,Chicago,61856,Books,20.0,6,2.49,18,Paid,Premium,2026-06-13,2026-02-15,5,1,0
+CUST-1010,David Allen,35,Female,Los Angeles,55731,Electronics,334.6,7,0.0,0,N/A,Basic,2026-10-27,2026-03-18,6,1,0
+CUST-1011,Margaret Hill,29,Male,San Antonio,36361,Sports Equipment,331.47,5,34.11,24,Defaulted,None,N/A,2025-06-24,1,3,0
+CUST-1012,Andrew Moore,37,Non-binary,Philadelphia,66695,Fashion,333.65,2,31.19,18,Paid,None,N/A,2026-01-24,6,3,0
+CUST-1013,Barbara Allen,44,Male,Phoenix,46323,Books,453.93,5,39.67,6,Active,None,N/A,2025-08-05,3,4,1
+CUST-1014,Jane Davis,58,Female,Phoenix,64020,Books,20.0,4,0.0,0,N/A,Basic,2026-09-26,2026-04-28,8,4,0
+CUST-1015,Ashley Jones,37,Non-binary,Chicago,54356,Home Appliances,50.7,9,7.34,6,Defaulted,Standard,2026-09-06,2025-08-01,1,5,1
+CUST-1016,Susan Wright,33,Non-binary,Houston,52521,Fitness Gear,203.94,8,30.49,12,Defaulted,Premium,2026-08-31,2025-10-19,1,2,1
+CUST-1017,Thomas Jones,41,Female,New York,67529,Books,102.0,3,5.17,3,Active,Basic,2026-01-13,2026-05-22,5,4,0
+CUST-1018,Michael Allen,22,Male,Phoenix,15000,Office Supplies,35.9,4,3.73,24,Active,Premium,2026-04-13,2025-10-08,3,3,0
+CUST-1019,Joseph Miller,38,Male,San Antonio,56060,Beauty Products,190.98,10,17.4,3,Defaulted,None,N/A,2026-05-07,3,5,0
+CUST-1020,Nancy Miller,39,Male,Houston,50721,Books,20.0,1,1.28,6,Defaulted,Standard,2026-08-03,2026-01-31,1,1,0
+CUST-1021,Michael Lewis,40,Non-binary,Los Angeles,88948,Electronics,249.26,5,0.0,0,N/A,None,N/A,2026-02-06,5,5,0
+CUST-1022,Ashley Walker,25,Male,San Antonio,48509,Electronics,20.0,1,1.76,18,Active,Standard,2026-07-30,2026-01-12,7,4,0
+CUST-1023,Emily Young,56,Male,Houston,46972,Fitness Gear,585.06,6,85.93,24,Active,None,N/A,2025-12-29,3,1,1
+CUST-1024,Donna Walker,33,Non-binary,Dallas,70599,Home Appliances,172.43,7,0.0,0,N/A,None,N/A,2026-03-04,4,2,1
+CUST-1025,Michael Thomas,27,Female,Los Angeles,46103,Books,456.09,1,0.0,0,N/A,None,N/A,2025-11-05,2,5,0
+CUST-1026,Joshua King,36,Female,Phoenix,42648,Books,351.42,6,25.96,18,Paid,Basic,2026-11-18,2025-07-12,5,4,1
+CUST-1027,Daniel Jones,20,Male,San Diego,34769,Fashion,291.13,4,0.0,0,N/A,Basic,2026-08-26,2026-01-23,3,4,0
+CUST-1028,Matthew Jones,24,Male,Philadelphia,45264,Fitness Gear,190.52,8,17.87,24,Active,Standard,2026-10-19,2025-07-08,4,1,1
+CUST-1029,Emily Martin,43,Non-binary,Los Angeles,44284,Home Appliances,239.05,10,14.71,3,Paid,Basic,2026-04-28,2026-01-14,3,4,0
+CUST-1030,Nancy Wilson,47,Non-binary,Phoenix,47732,Office Supplies,301.73,1,42.4,3,Paid,None,N/A,2025-07-18,6,4,0
+CUST-1031,Sarah Williams,49,Male,Philadelphia,89451,Home Appliances,38.7,5,2.56,18,Paid,Premium,2026-09-23,2026-06-03,4,5,0
+CUST-1032,Elizabeth Wright,30,Male,Philadelphia,55180,Home Appliances,397.06,4,24.91,12,Defaulted,Standard,2025-12-30,2025-12-06,2,4,1
+CUST-1033,Jessica Miller,36,Female,Dallas,88802,Sports Equipment,20.0,7,2.85,6,Active,Basic,2026-03-10,2025-11-08,1,5,1
+CUST-1034,Nancy Clark,45,Non-binary,Houston,55138,Fitness Gear,64.65,7,8.32,3,Active,Premium,2025-12-29,2025-10-10,5,3,1
+CUST-1035,Sandra Thompson,34,Female,Houston,58845,Books,20.0,5,0.0,0,N/A,Basic,2026-07-02,2025-12-21,6,4,0
+CUST-1036,Michael Moore,44,Female,Dallas,59464,Sports Equipment,370.95,2,53.39,3,Paid,Standard,2026-03-11,2025-08-14,4,4,0
+CUST-1037,Charles Williams,52,Male,San Jose,79807,Sports Equipment,20.0,1,2.46,12,Paid,Premium,2026-10-16,2025-09-19,5,5,1
+CUST-1038,Joshua Gonzalez,46,Female,New York,58358,Sports Equipment,445.83,7,0.0,0,N/A,Basic,2026-06-14,2025-10-30,4,4,1
+CUST-1039,Nancy Flores,51,Female,Los Angeles,72770,Fitness Gear,324.56,4,37.87,12,Paid,Premium,2026-12-01,2026-01-07,4,4,0
+CUST-1040,Joseph Clark,37,Non-binary,San Antonio,48405,Home Appliances,20.0,3,1.81,3,Paid,Standard,2026-05-05,2026-02-20,6,4,0
+CUST-1041,Donna Hill,34,Non-binary,Philadelphia,62334,Office Supplies,20.0,5,1.88,6,Defaulted,Premium,2026-03-06,2025-07-05,1,4,1
+CUST-1042,Paul Flores,48,Female,Los Angeles,95835,Books,468.52,11,33.95,6,Paid,Basic,2025-12-22,2026-05-15,7,5,0
+CUST-1043,Steven Flores,18,Male,San Diego,32796,Sports Equipment,303.28,2,36.95,18,Active,Premium,2026-07-02,2026-02-03,3,1,1
+CUST-1044,John Miller,38,Female,Houston,38422,Home Appliances,71.57,9,3.94,6,Defaulted,None,N/A,2025-10-17,1,3,1
+CUST-1045,Sandra King,61,Non-binary,San Jose,79074,Beauty Products,362.65,1,40.35,24,Defaulted,Premium,2026-09-16,2025-10-22,5,3,0
+CUST-1046,Steven Lewis,52,Female,Houston,53038,Fitness Gear,105.56,1,11.89,12,Defaulted,Premium,2026-01-18,2026-01-12,5,1,1
+CUST-1047,Nancy Lee,18,Non-binary,Los Angeles,15000,Home Appliances,20.0,2,1.46,6,Active,Basic,2026-01-11,2025-11-07,7,4,1
+CUST-1048,Andrew Robinson,22,Female,New York,32073,Books,143.77,2,12.79,24,Defaulted,None,N/A,2025-08-17,5,5,1
+CUST-1049,John Thompson,28,Female,San Antonio,46931,Sports Equipment,26.89,5,2.66,12,Active,Premium,2026-08-15,2026-05-24,6,5,0
+CUST-1050,Betty Hernandez,35,Female,Chicago,18539,Electronics,20.0,7,2.18,3,Defaulted,None,N/A,2025-07-13,5,4,1
+CUST-1051,Sandra Lopez,38,Male,Phoenix,58824,Sports Equipment,34.28,5,2.44,12,Paid,Standard,2026-06-22,2026-01-16,5,4,0
+CUST-1052,Mark Taylor,34,Male,San Diego,36666,Electronics,327.07,3,0.0,0,N/A,Standard,2026-04-03,2025-07-10,6,5,1
+CUST-1053,Robert Johnson,49,Male,Houston,70444,Electronics,58.41,2,4.31,18,Active,None,N/A,2025-08-23,5,5,0
+CUST-1054,Sandra Taylor,47,Female,Chicago,32184,Fashion,20.0,1,2.93,3,Active,None,N/A,2025-12-30,8,5,0
+CUST-1055,Anthony Sanchez,37,Non-binary,Houston,65481,Fashion,328.18,7,19.75,12,Active,None,N/A,2025-08-22,6,3,0
+CUST-1056,Matthew Wright,40,Female,Philadelphia,48411,Fashion,94.2,7,4.83,18,Paid,Premium,2026-02-02,2025-10-29,2,5,0
+CUST-1057,Sandra Martinez,41,Female,Chicago,61927,Fitness Gear,580.4,2,56.0,24,Defaulted,Standard,2026-05-24,2026-02-02,1,4,0
+CUST-1058,Patricia Moore,25,Female,Houston,48560,Office Supplies,20.0,6,1.67,18,Defaulted,Standard,2026-03-13,2025-10-01,1,4,1
+CUST-1059,Charles Perez,51,Female,San Jose,60794,Fitness Gear,96.52,2,0.0,0,N/A,Basic,2026-01-22,2026-02-04,6,4,0
+CUST-1060,Ashley Scott,33,Male,San Diego,38500,Office Supplies,250.32,4,32.36,3,Defaulted,Standard,2026-04-02,2025-11-12,1,1,1
+CUST-1061,Karen Nguyen,22,Female,San Diego,15000,Beauty Products,72.31,1,10.82,24,Defaulted,Standard,2026-06-08,2025-06-13,1,3,1
+CUST-1062,Karen Taylor,57,Male,Los Angeles,64465,Books,28.0,5,1.73,24,Paid,Basic,2026-03-18,2026-02-17,4,2,0
+CUST-1063,Sarah Nguyen,43,Non-binary,San Jose,42591,Fitness Gear,449.14,5,0.0,0,N/A,Basic,2026-05-10,2026-02-11,5,3,0
+CUST-1064,Karen Smith,44,Non-binary,Dallas,50851,Home Appliances,164.78,6,8.99,3,Paid,Standard,2026-12-02,2026-04-04,7,5,0
+CUST-1065,Ashley Miller,41,Male,San Jose,41404,Fitness Gear,241.0,4,23.59,12,Defaulted,Basic,2026-01-05,2026-01-29,5,3,0
+CUST-1066,Steven Davis,51,Male,San Antonio,81006,Office Supplies,158.82,11,0.0,0,N/A,None,N/A,2026-03-22,7,4,0
+CUST-1067,Joshua Martin,29,Male,Houston,32009,Fashion,26.86,1,2.97,24,Defaulted,Basic,2026-09-03,2025-11-25,1,5,1
+CUST-1068,Donald Martin,41,Non-binary,San Antonio,24309,Fitness Gear,238.58,4,0.0,0,N/A,None,N/A,2026-02-21,6,2,0
+CUST-1069,Charles Garcia,24,Male,Houston,63471,Home Appliances,69.64,8,0.0,0,N/A,Basic,2025-12-11,2025-11-10,1,5,1
+CUST-1070,Kenneth Walker,56,Female,New York,72134,Books,20.0,6,2.41,18,Paid,None,N/A,2025-06-21,2,3,1
+CUST-1071,Charles Nguyen,40,Non-binary,Houston,52704,Sports Equipment,277.27,3,0.0,0,N/A,Basic,2026-11-06,2026-03-23,3,5,0
+CUST-1072,Elizabeth Jones,38,Male,Chicago,29471,Fitness Gear,341.56,5,32.08,18,Paid,Standard,2026-12-03,2025-11-13,7,3,0
+CUST-1073,Paul Wright,43,Female,San Diego,43772,Fashion,166.91,9,0.0,0,N/A,Premium,2026-05-24,2025-08-02,6,4,1
+CUST-1074,Patricia Anderson,40,Non-binary,San Jose,67398,Electronics,20.0,5,2.15,6,Paid,Premium,2026-09-01,2025-07-09,2,1,1
+CUST-1075,Sarah Lopez,47,Non-binary,San Antonio,79529,Office Supplies,316.74,2,0.0,0,N/A,Premium,2026-06-06,2025-11-10,6,3,1
+CUST-1076,William Hernandez,18,Female,San Antonio,43290,Office Supplies,183.32,4,21.31,18,Paid,None,N/A,2025-10-18,1,4,1
+CUST-1077,Charles Lee,59,Male,San Antonio,50298,Electronics,139.19,1,12.71,6,Defaulted,Standard,2026-10-24,2025-09-25,1,3,1
+CUST-1078,Mary Wilson,39,Female,Dallas,67840,Home Appliances,143.26,1,13.44,18,Paid,None,N/A,2026-05-24,4,2,0
+CUST-1079,Kenneth Thomas,44,Non-binary,Chicago,41901,Fitness Gear,20.0,2,0.0,0,N/A,Premium,2026-01-26,2026-02-12,5,4,0
+CUST-1080,Linda Robinson,51,Male,Chicago,56299,Office Supplies,20.0,3,2.02,12,Paid,Premium,2026-08-14,2025-10-09,1,1,1
+CUST-1081,Emily Martinez,38,Female,Houston,34471,Home Appliances,20.0,2,0.0,0,N/A,Standard,2026-07-10,2025-12-15,8,1,0
+CUST-1082,Paul Moore,40,Male,Phoenix,59718,Fitness Gear,329.99,8,45.05,18,Defaulted,Premium,2026-06-04,2025-12-19,1,4,0
+CUST-1083,Andrew Harris,33,Female,Philadelphia,36362,Books,20.0,3,2.14,6,Active,Premium,2026-01-01,2025-12-27,2,3,0
+CUST-1084,Anthony Harris,56,Non-binary,Chicago,80771,Office Supplies,186.5,2,0.0,0,N/A,Basic,2026-08-24,2025-08-09,5,4,1
+CUST-1085,William Lewis,38,Male,Dallas,35666,Office Supplies,176.36,1,0.0,0,N/A,Basic,2026-07-07,2025-07-07,1,1,0
+CUST-1086,Michael Walker,22,Female,Philadelphia,18081,Sports Equipment,20.0,1,0.0,0,N/A,Standard,2026-11-20,2025-09-07,3,5,0
+CUST-1087,Daniel Young,60,Non-binary,New York,85224,Fashion,481.21,5,54.43,12,Active,Basic,2026-01-25,2025-10-28,4,4,0
+CUST-1088,William Lewis,29,Male,Phoenix,34392,Electronics,56.78,8,0.0,0,N/A,Standard,2026-01-07,2026-01-08,4,3,0
+CUST-1089,Margaret Martinez,51,Male,Dallas,91641,Sports Equipment,304.23,1,20.38,3,Active,Premium,2026-10-23,2025-06-23,1,2,1
+CUST-1090,Donna Martinez,34,Male,San Diego,33571,Fitness Gear,20.0,2,1.51,3,Defaulted,Premium,2026-05-06,2025-06-26,2,5,1
+CUST-1091,Michael Lewis,37,Female,San Jose,35386,Fitness Gear,286.46,2,34.1,18,Defaulted,Standard,2026-03-21,2025-11-23,2,5,0
+CUST-1092,William Thomas,28,Female,San Jose,70649,Beauty Products,357.25,10,53.33,12,Paid,None,N/A,2025-07-05,1,2,1
+CUST-1093,John Torres,30,Non-binary,New York,15000,Office Supplies,124.62,1,15.9,6,Paid,Standard,2026-04-01,2025-07-17,4,3,1
+CUST-1094,Charles Rodriguez,29,Non-binary,Los Angeles,23912,Electronics,680.67,4,87.71,3,Paid,Standard,2026-02-15,2026-04-22,1,1,0
+CUST-1095,Daniel Clark,29,Male,Houston,35231,Home Appliances,20.0,7,2.06,12,Paid,Basic,2026-04-20,2025-10-04,5,4,0
+CUST-1096,Christopher Perez,26,Male,San Diego,27149,Fashion,20.0,11,2.51,6,Active,Premium,2026-09-21,2025-12-02,1,5,1
+CUST-1097,Betty Smith,44,Female,Dallas,46940,Fashion,115.8,4,10.06,12,Defaulted,Premium,2026-11-01,2025-11-29,2,2,1
+CUST-1098,Thomas Walker,43,Male,San Jose,46082,Beauty Products,82.39,6,9.46,18,Active,Standard,2026-11-07,2025-11-10,3,4,1
+CUST-1099,Robert Williams,43,Female,San Diego,86131,Fashion,120.93,8,0.0,0,N/A,Basic,2026-09-11,2026-03-30,8,3,0
+CUST-1100,Lisa Wright,35,Female,San Jose,36853,Home Appliances,347.17,1,40.1,18,Defaulted,Premium,2026-05-02,2026-05-22,1,4,0
+CUST-1101,Susan Lewis,43,Female,Houston,51713,Beauty Products,20.0,7,0.0,0,N/A,Standard,2026-09-14,2025-07-12,3,2,1
+CUST-1102,Betty Moore,49,Male,Los Angeles,63477,Office Supplies,20.0,6,0.0,0,N/A,Basic,2026-11-03,2025-07-15,3,4,0
+CUST-1103,Jane Brown,47,Female,Houston,93060,Home Appliances,242.7,6,13.8,24,Active,Basic,2026-10-06,2026-02-17,4,2,0
+CUST-1104,Thomas Perez,29,Male,San Jose,63646,Electronics,94.14,6,12.79,6,Paid,Basic,2026-09-12,2026-01-30,7,4,0
+CUST-1105,Linda Johnson,36,Male,New York,33318,Beauty Products,208.78,2,22.73,3,Active,Basic,2026-04-24,2026-05-12,7,4,1
+CUST-1106,Mark King,28,Male,Los Angeles,60788,Office Supplies,20.0,8,2.56,24,Defaulted,None,N/A,2025-10-19,1,3,1
+CUST-1107,Michelle Williams,18,Non-binary,Dallas,52440,Fitness Gear,141.32,6,16.16,3,Defaulted,None,N/A,2025-10-05,1,4,0
+CUST-1108,Margaret Miller,26,Female,San Diego,34957,Fashion,491.39,4,0.0,0,N/A,Standard,2026-10-17,2026-03-24,7,5,0
+CUST-1109,Sarah Flores,30,Non-binary,San Jose,49072,Beauty Products,418.16,10,62.5,24,Defaulted,Standard,2026-07-30,2025-09-22,4,5,1
+CUST-1110,William Davis,33,Non-binary,Dallas,43646,Books,651.38,6,61.98,6,Defaulted,Premium,2026-06-01,2025-10-18,2,3,1
+CUST-1111,William Lee,38,Female,Philadelphia,43596,Fitness Gear,20.0,1,2.91,18,Paid,None,N/A,2026-04-22,7,3,0
+CUST-1112,Patricia Ramirez,40,Male,Philadelphia,71051,Home Appliances,20.0,2,0.0,0,N/A,Standard,2026-11-18,2026-04-06,5,3,0
+CUST-1113,Margaret Brown,37,Female,San Jose,44909,Fitness Gear,134.05,1,8.09,24,Paid,Basic,2026-02-27,2025-07-06,3,4,1
+CUST-1114,William Thompson,48,Non-binary,Philadelphia,44742,Fashion,20.0,6,2.15,18,Paid,None,N/A,2025-07-31,3,5,0
+CUST-1115,Sarah Johnson,70,Male,Phoenix,82888,Fitness Gear,178.06,5,15.15,6,Paid,Basic,2026-09-25,2025-07-06,3,2,1
+CUST-1116,Elizabeth Johnson,38,Male,Dallas,88548,Books,466.26,2,42.89,12,Defaulted,Basic,2026-06-17,2025-12-30,1,3,0
+CUST-1117,Joshua Hill,54,Male,New York,34899,Home Appliances,60.61,3,7.6,3,Active,None,N/A,2026-01-19,3,4,0
+CUST-1118,Margaret Young,30,Non-binary,San Diego,36571,Sports Equipment,233.63,4,16.72,24,Paid,None,N/A,2025-12-13,4,4,0
+CUST-1119,Christopher Nguyen,48,Female,Dallas,43064,Fitness Gear,240.94,2,0.0,0,N/A,Basic,2026-06-30,2025-08-05,1,1,1
+CUST-1120,Susan Martin,48,Male,Chicago,72207,Fitness Gear,219.14,2,18.15,3,Paid,Premium,2026-07-18,2026-03-10,6,3,0
+CUST-1121,Andrew Anderson,27,Non-binary,Dallas,48239,Beauty Products,86.33,6,0.0,0,N/A,Premium,2025-12-31,2025-10-27,4,3,1
+CUST-1122,Michael Lee,24,Non-binary,San Antonio,17377,Sports Equipment,380.53,1,30.04,18,Defaulted,None,N/A,2025-12-23,1,3,1
+CUST-1123,Michelle Robinson,24,Non-binary,Philadelphia,62321,Fashion,501.61,1,67.44,6,Defaulted,Premium,2026-10-07,2025-11-14,1,4,1
+CUST-1124,Betty Martin,38,Non-binary,Philadelphia,64577,Books,97.43,5,12.46,3,Paid,None,N/A,2025-09-09,5,1,1
+CUST-1125,Matthew Thompson,43,Non-binary,Chicago,29347,Books,278.0,1,0.0,0,N/A,Basic,2026-04-20,2026-02-26,6,5,1
+CUST-1126,Elizabeth Jones,37,Male,San Diego,29673,Office Supplies,20.0,4,2.36,24,Defaulted,Standard,2026-10-27,2025-12-28,4,4,1
+CUST-1127,Michael Walker,52,Female,Phoenix,71088,Fitness Gear,367.63,6,0.0,0,N/A,Standard,2026-08-26,2026-05-01,8,2,0
+CUST-1128,Donald Williams,52,Male,Philadelphia,61628,Fitness Gear,238.35,7,0.0,0,N/A,None,N/A,2025-07-28,1,1,1
+CUST-1129,Anthony Robinson,46,Non-binary,Dallas,47113,Electronics,20.0,5,2.82,24,Defaulted,Basic,2026-05-23,2025-08-02,1,3,1
+CUST-1130,Elizabeth Brown,23,Female,Los Angeles,55119,Beauty Products,269.91,2,0.0,0,N/A,Basic,2025-12-30,2026-02-01,2,3,0
+CUST-1131,Donald King,45,Non-binary,San Jose,59772,Home Appliances,299.83,2,26.17,12,Paid,Premium,2026-07-07,2025-12-16,4,3,0
+CUST-1132,Mary Perez,41,Male,Philadelphia,27656,Fashion,57.22,6,4.49,24,Defaulted,Basic,2026-05-29,2026-04-27,2,1,1
+CUST-1133,Elizabeth Thompson,39,Female,San Antonio,77562,Home Appliances,540.05,3,0.0,0,N/A,Standard,2026-09-22,2025-11-27,5,4,0
+CUST-1134,Nancy Rodriguez,33,Non-binary,Dallas,28683,Fashion,20.0,6,2.02,3,Defaulted,Standard,2026-05-17,2026-03-07,4,1,0
+CUST-1135,Nancy Young,39,Male,Houston,60310,Home Appliances,20.0,5,1.15,3,Active,None,N/A,2025-07-04,4,4,1
+CUST-1136,Michelle Rodriguez,47,Non-binary,San Antonio,78294,Home Appliances,87.55,8,5.96,24,Active,Basic,2026-07-22,2026-05-16,7,3,0
+CUST-1137,Jessica Lewis,45,Non-binary,Phoenix,60115,Office Supplies,20.0,5,2.07,12,Active,Premium,2026-03-19,2025-12-01,1,5,0
+CUST-1138,Joshua Lewis,52,Female,Phoenix,80936,Sports Equipment,87.85,5,12.88,6,Defaulted,Basic,2026-04-17,2026-05-12,4,4,0
+CUST-1139,Lisa Scott,41,Male,Dallas,46065,Fashion,84.23,3,4.92,6,Paid,Standard,2026-07-28,2025-09-18,4,3,1
+CUST-1140,Margaret Garcia,34,Male,San Diego,42084,Beauty Products,224.6,4,0.0,0,N/A,Premium,2026-01-06,2025-11-17,1,4,0
+CUST-1141,Jessica Harris,52,Male,Philadelphia,41716,Books,319.64,5,0.0,0,N/A,Standard,2026-01-29,2025-07-10,4,5,1
+CUST-1142,Elizabeth Rodriguez,52,Male,Phoenix,82347,Office Supplies,80.38,3,10.12,18,Active,Premium,2026-10-21,2026-06-05,1,4,0
+CUST-1143,Jane Taylor,34,Male,Chicago,67800,Sports Equipment,63.23,9,0.0,0,N/A,Standard,2026-04-10,2026-01-04,5,3,1
+CUST-1144,Jessica Clark,36,Non-binary,San Jose,32908,Office Supplies,20.0,1,0.0,0,N/A,None,N/A,2025-09-25,1,4,0
+CUST-1145,Jane Allen,51,Non-binary,Houston,59790,Home Appliances,294.75,4,27.39,24,Paid,Standard,2026-04-12,2025-08-19,1,5,1
+CUST-1146,Patricia King,44,Female,Los Angeles,73506,Electronics,20.0,10,2.75,3,Defaulted,Premium,2026-06-19,2026-01-29,2,2,0
+CUST-1147,Matthew Jones,32,Female,Houston,35667,Fashion,373.47,2,23.66,12,Paid,Standard,2026-11-04,2026-03-10,8,4,0
+CUST-1148,Sandra Walker,33,Non-binary,Chicago,50154,Home Appliances,20.0,3,0.0,0,N/A,Premium,2025-12-28,2026-01-08,4,4,0
+CUST-1149,Joseph Williams,58,Female,Phoenix,96938,Sports Equipment,119.4,4,8.99,6,Defaulted,Standard,2026-06-10,2026-05-14,3,4,0
+CUST-1150,Nancy Moore,44,Male,Philadelphia,43241,Sports Equipment,20.0,4,2.49,18,Defaulted,Standard,2026-03-15,2025-09-26,1,3,1

@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise AI Customer Intelligence Platform</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Slate 900 */
+            --sidebar-color: #1e293b; /* Slate 800 */
+            --accent-teal: #0d9488;    /* Teal 600 */
+            --accent-teal-hover: #0f766e;
+            --accent-blue: #3b82f6;    /* Blue 500 */
+            --bg-light: #f8fafc;       /* Slate 50 */
+            --card-border: #e2e8f0;    /* Slate 200 */
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --risk-high: #ef4444;      /* Red 500 */
+            --risk-med: #f59e0b;       /* Amber 500 */
+            --risk-low: #10b981;       /* Emerald 500 */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            background-color: var(--sidebar-color);
+            min-height: 100vh;
+            color: #ffffff;
+            position: fixed;
+            width: 260px;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            background-color: var(--primary-color);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu li a i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            color: #ffffff;
+            background-color: rgba(255,255,255,0.05);
+            border-left: 4px solid var(--accent-teal);
+        }
+
+        /* Main Content Wrapper */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+
+        /* KPI Card Styling */
+        .kpi-card {
+            background-color: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .kpi-icon {
+            font-size: 2rem;
+            opacity: 0.8;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            color: #e2e8f0;
+        }
+
+        /* Tabs Panels */
+        .tab-panel {
+            display: none;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Cards and Tables */
+        .dashboard-card {
+            background-color: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.02);
+        }
+
+        .table-custom {
+            vertical-align: middle;
+        }
+        .table-custom thead {
+            background-color: #f1f5f9;
+        }
+        .table-custom th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            padding: 14px;
+        }
+        .table-custom td {
+            padding: 14px;
+            font-size: 0.88rem;
+        }
+
+        /* Badges */
+        .badge-segment {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 50px;
+        }
+        .segment-high-value { background-color: #dbeafe; color: #1e40af; }
+        .segment-regular { background-color: #e0f2fe; color: #0369a1; }
+        .segment-occasional { background-color: #f1f5f9; color: #334155; }
+        .segment-new { background-color: #dcfce7; color: #15803d; }
+        .segment-at-risk { background-color: #fee2e2; color: #b91c1c; }
+        .segment-inactive { background-color: #ffedd5; color: #c2410c; }
+
+        .badge-risk {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+        .risk-high-badge { background-color: #fee2e2; color: #991b1b; }
+        .risk-medium-badge { background-color: #fef3c7; color: #92400e; }
+        .risk-low-badge { background-color: #dcfce7; color: #166534; }
+
+        /* Loader */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Chart height */
+        .chart-container {
+            position: relative;
+            height: 320px;
+            width: 100%;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Form styling */
+        .form-label {
+            font-weight: 500;
+            font-size: 0.88rem;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 991px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar .sidebar-header h4, .sidebar .sidebar-menu span {
+                display: none;
+            }
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="text-center">
+            <div class="spinner-border text-teal" style="width: 3rem; height: 3rem; color: var(--accent-teal);" role="status">
+                <span class="visually-hidden">Running Models...</span>
+            </div>
+            <h5 class="mt-3 fw-semibold">AI Models Recalculating...</h5>
+            <p class="text-muted">Optimizing parameters and updating dashboard forecasts.</p>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h4 class="m-0 fw-bold text-teal d-flex align-items-center" style="color: var(--accent-teal);">
+                <i class="fa-solid fa-brain me-2"></i>
+                <span>Customer AI</span>
+            </h4>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" data-tab="overview"><i class="fa-solid fa-chart-pie"></i><span>Overview Dashboard</span></a></li>
+            <li><a href="#" data-tab="customers-tab"><i class="fa-solid fa-users"></i><span>Customer Manager</span></a></li>
+            <li><a href="#" data-tab="segmentation"><i class="fa-solid fa-layer-group"></i><span>Customer Segments</span></a></li>
+            <li><a href="#" data-tab="churn"><i class="fa-solid fa-user-minus"></i><span>Churn Forecasting</span></a></li>
+            <li><a href="#" data-tab="recommendations"><i class="fa-solid fa-gift"></i><span>Personalized Recs</span></a></li>
+            <li><a href="#" data-tab="market"><i class="fa-solid fa-chart-line"></i><span>Market Trends</span></a></li>
+            <li><a href="#" data-tab="reports"><i class="fa-solid fa-file-invoice-dollar"></i><span>Reports & Data</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="main-content">
+        <!-- Top Navigation Header -->
+        <header class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+            <div>
+                <h2 class="fw-bold m-0" id="pageTitle">Overview Dashboard</h2>
+                <p class="text-muted m-0">AI-driven purchase prediction, churn risk estimation, and portfolio analytics.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <form action="/reset_data" method="POST" onsubmit="showLoader()">
+                    <button type="submit" class="btn btn-outline-secondary btn-sm rounded-pill fw-semibold shadow-sm">
+                        <i class="fa-solid fa-rotate-left me-1"></i> Reset Sample Data
+                    </button>
+                </form>
+                <a href="/download/excel" class="btn btn-teal btn-sm rounded-pill fw-semibold shadow-sm text-white" style="background-color: var(--accent-teal);">
+                    <i class="fa-solid fa-file-excel me-1"></i> Excel Report
+                </a>
+                <a href="/download/pdf" class="btn btn-primary btn-sm rounded-pill fw-semibold shadow-sm">
+                    <i class="fa-solid fa-file-pdf me-1"></i> PDF Executive Briefing
+                </a>
+            </div>
+        </header>
+
+        <!-- ========================================== -->
+        <!-- OVERVIEW TAB -->
+        <!-- ========================================== -->
+        <div class="tab-panel active" id="overview">
+            <!-- KPI Cards Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="kpi-card">
+                        <span class="text-muted d-block uppercase small fw-semibold">Total Revenue Portfolio</span>
+                        <h3 class="fw-bold mt-2 mb-0" id="kpi-revenue">${{ "{:,.2f}".format(total_revenue) }}</h3>
+                        <span class="text-success small fw-semibold mt-1 d-block"><i class="fa-solid fa-arrow-trend-up"></i> +3.5% Forecast MoM</span>
+                        <i class="fa-solid fa-wallet kpi-icon text-primary opacity-10"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="kpi-card">
+                        <span class="text-muted d-block uppercase small fw-semibold">Active Profiles Analyzed</span>
+                        <h3 class="fw-bold mt-2 mb-0" id="kpi-customers">{{ active_customers }}</h3>
+                        <span class="text-muted small mt-1 d-block">100+ Data records loaded</span>
+                        <i class="fa-solid fa-users kpi-icon text-primary opacity-10"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="kpi-card">
+                        <span class="text-muted d-block uppercase small fw-semibold">At-Risk Accounts</span>
+                        <h3 class="fw-bold mt-2 mb-0 text-danger" id="kpi-high-risk">{{ high_risk_count }}</h3>
+                        <span class="text-danger small fw-semibold mt-1 d-block"><i class="fa-solid fa-triangle-exclamation"></i> Churn probability > 70%</span>
+                        <i class="fa-solid fa-user-xmark kpi-icon text-danger opacity-10"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="kpi-card">
+                        <span class="text-muted d-block uppercase small fw-semibold">Avg. Engagement Score</span>
+                        <h3 class="fw-bold mt-2 mb-0" id="kpi-engagement">{{ avg_engagement }}/10</h3>
+                        <span class="text-primary small fw-semibold mt-1 d-block">Subscribed plans: <b id="kpi-subs">{{ active_subs }}</b></span>
+                        <i class="fa-solid fa-chart-bar kpi-icon text-primary opacity-10"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization Row 1 -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-3 text-slate">Attrition & Churn Risk Profile</h5>
+                        <div class="chart-container">
+                            <canvas id="churnPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-3">Revenue Projection Forecast (6 Months)</h5>
+                        <div class="chart-container">
+                            <canvas id="revenueTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization Row 2 -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-3">Top Product Categories By Revenue</h5>
+                        <div class="chart-container">
+                            <canvas id="productSalesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-3">Customer Cohort Segment Distributions</h5>
+                        <div class="chart-container">
+                            <canvas id="segmentPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CUSTOMER MANAGER TAB (CRUD) -->
+        <!-- ========================================== -->
+        <div class="tab-panel" id="customers-tab">
+            <div class="dashboard-card">
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                    <h5 class="fw-bold m-0"><i class="fa-solid fa-table me-2"></i>Customer Database Directory</h5>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <input type="text" id="custSearchInput" class="form-control form-control-sm border-secondary-subtle" style="width: 200px;" placeholder="Search names, locations...">
+                        <select id="segmentFilter" class="form-select form-select-sm border-secondary-subtle" style="width: 150px;">
+                            <option value="">All Segments</option>
+                            <option value="High Value Customers">High Value</option>
+                            <option value="Regular Customers">Regular</option>
+                            <option value="Occasional Buyers">Occasional</option>
+                            <option value="New Customers">New</option>
+                            <option value="At-Risk Customers">At Risk</option>
+                            <option value="Inactive Customers">Inactive</option>
+                        </select>
+                        <select id="riskFilter" class="form-select form-select-sm border-secondary-subtle" style="width: 130px;">
+                            <option value="">All Risks</option>
+                            <option value="High">High Risk</option>
+                            <option value="Medium">Medium Risk</option>
+                            <option value="Low">Low Risk</option>
+                        </select>
+                        <button class="btn btn-teal btn-sm text-white fw-semibold px-3" style="background-color: var(--accent-teal);" data-bs-toggle="modal" data-bs-target="#customerModal" onclick="clearCustomerForm()">
+                            <i class="fa-solid fa-user-plus me-1"></i> Add Account
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-custom table-striped-columns align-middle" id="customerTable">
+                        <thead>
+                            <tr>
+                                <th>Client Details</th>
+                                <th>Demographics</th>
+                                <th>Financial Stats</th>
+                                <th>Purchases</th>
+                                <th>Engagement & CSAT</th>
+                                <th>Cohort Segment</th>
+                                <th>Attrition Risk</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customerTableBody">
+                            <!-- Loop over customers -->
+                            {% for c in customers %}
+                            <tr data-id="{{ c.customer_id }}" data-segment="{{ c.segment }}" data-risk="{{ c.risk_level }}">
+                                <td>
+                                    <div class="fw-bold text-slate">{{ c.name }}</div>
+                                    <small class="text-muted font-monospace">{{ c.customer_id }}</small>
+                                </td>
+                                <td>
+                                    <div>{{ c.gender }}, {{ c.age }} yrs</div>
+                                    <small class="text-muted"><i class="fa-solid fa-location-dot me-1"></i>{{ c.location }}</small>
+                                </td>
+                                <td>
+                                    <div>Inc: <b>${{ "{:,.0f}".format(c.income) }}</b></div>
+                                    <small class="text-muted">CLV: ${{ "{:,.0f}".format(c.clv) }}</small>
+                                </td>
+                                <td>
+                                    <div class="fw-semibold">{{ c.product_purchased }}</div>
+                                    <small class="text-muted">${{ "{:,.2f}".format(c.purchase_amount) }} | Freq: {{ c.purchase_frequency }}/yr</small>
+                                </td>
+                                <td>
+                                    <div>Eng: <b class="text-primary">{{ c.engagement_score }}/10</b></div>
+                                    <small class="text-muted">CSAT: {{ c.customer_satisfaction_score }}/5</small>
+                                </td>
+                                <td>
+                                    {% if c.segment == 'High Value Customers' %}
+                                        <span class="badge badge-segment segment-high-value">High Value</span>
+                                    {% elif c.segment == 'Regular Customers' %}
+                                        <span class="badge badge-segment segment-regular">Regular</span>
+                                    {% elif c.segment == 'Occasional Buyers' %}
+                                        <span class="badge badge-segment segment-occasional">Occasional</span>
+                                    {% elif c.segment == 'New Customers' %}
+                                        <span class="badge badge-segment segment-new">New Customer</span>
+                                    {% elif c.segment == 'At-Risk Customers' %}
+                                        <span class="badge badge-segment segment-at-risk">At Risk</span>
+                                    {% else %}
+                                        <span class="badge badge-segment segment-inactive">Inactive</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if c.risk_level == 'High' %}
+                                        <span class="badge badge-risk risk-high-badge">{{ (c.churn_probability*100)|round(1) }}% High</span>
+                                    {% elif c.risk_level == 'Medium' %}
+                                        <span class="badge badge-risk risk-medium-badge">{{ (c.churn_probability*100)|round(1) }}% Med</span>
+                                    {% else %}
+                                        <span class="badge badge-risk risk-low-badge">{{ (c.churn_probability*100)|round(1) }}% Low</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-outline-secondary btn-sm" onclick="editCustomer('{{ c.customer_id }}')" title="Edit Customer Details"><i class="fa-solid fa-pencil"></i></button>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="deleteCustomer('{{ c.customer_id }}')" title="Delete Customer Account"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Custom Client Pagination UI -->
+                <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                    <span class="text-muted small" id="tablePageStats">Showing 1 to 10 of 150 accounts</span>
+                    <nav aria-label="Table Pagination">
+                        <ul class="pagination pagination-sm m-0" id="tablePagination">
+                            <!-- JS populated -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CUSTOMER SEGMENTATION TAB -->
+        <!-- ========================================== -->
+        <div class="tab-panel" id="segmentation">
+            <div class="row g-4 mb-4">
+                <!-- Cluster Controls -->
+                <div class="col-md-4">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-4"><i class="fa-solid fa-sliders me-2"></i>Segmentation Parameters</h5>
+                        
+                        <div class="mb-4">
+                            <label class="form-label d-block">Clustering Algorithm</label>
+                            <div class="form-check form-check-inline mt-1">
+                                <input class="form-check-input" type="radio" name="clusterAlgo" id="algoKmeans" value="kmeans" checked>
+                                <label class="form-check-label fw-semibold" for="algoKmeans">K-Means Clustering</label>
+                            </div>
+                            <div class="form-check form-check-inline mt-1">
+                                <input class="form-check-input" type="radio" name="clusterAlgo" id="algoHierarchical" value="hierarchical">
+                                <label class="form-check-label fw-semibold" for="algoHierarchical">Hierarchical</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="numClusters" class="form-label d-flex justify-content-between">
+                                <span>Target Cohort Clusters (K)</span>
+                                <b class="text-teal" id="numClustersVal">5 Clusters</b>
+                            </label>
+                            <input type="range" class="form-range" min="3" max="6" id="numClusters" value="5">
+                            <div class="d-flex justify-content-between text-muted small px-1">
+                                <span>3</span>
+                                <span>4</span>
+                                <span>5</span>
+                                <span>6</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-teal w-100 text-white fw-bold py-2 shadow-sm mt-2" style="background-color: var(--accent-teal);" onclick="updateClustering()">
+                            <i class="fa-solid fa-bolt me-1"></i> Re-Calculate Segments
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2D PCA Cluster Scatter Plot -->
+                <div class="col-md-8">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-diagram-project me-2"></i>Multi-Dimensional Cluster Plot (PCA 2D Projection)</h5>
+                        <p class="text-muted small">This plot projects our high-dimensional numeric vectors (Income, Spending, Engagement, and CSAT scores) into a 2D space for easy mathematical visualization of boundaries.</p>
+                        <div style="position: relative; height: 320px;">
+                            <canvas id="pcaScatterChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segment Distribution Cards -->
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-layer-group me-2"></i>Computed Cluster Segmentation Cohort Metrics</h5>
+            <div class="row g-4" id="segmentCardsRow">
+                {% for s in segment_stats %}
+                <div class="col-md-4">
+                    <div class="dashboard-card h-100 border-top border-4 border-teal">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge badge-segment segment-regular">{{ s.label }}</span>
+                            <span class="fw-bold text-teal" style="font-size: 1.15rem;">{{ s.percentage }}%</span>
+                        </div>
+                        <h6 class="text-muted small mb-3">Cohort Size: <b>{{ s.size }} Customers</b></h6>
+                        <hr class="my-2 border-slate-subtle">
+                        <div class="d-flex justify-content-between small py-1">
+                            <span class="text-muted">Avg Income:</span>
+                            <span class="fw-semibold">${{ "{:,.2f}".format(s.mean_income) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between small py-1">
+                            <span class="text-muted">Avg Purchase Size:</span>
+                            <span class="fw-semibold">${{ "{:,.2f}".format(s.mean_purchase_amount) }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between small py-1">
+                            <span class="text-muted">Avg Purchase Freq:</span>
+                            <span class="fw-semibold">{{ s.mean_purchase_frequency }} purchases/yr</span>
+                        </div>
+                        <div class="d-flex justify-content-between small py-1">
+                            <span class="text-muted">Avg Engagement:</span>
+                            <span class="fw-semibold text-primary">{{ s.mean_engagement }}/10</span>
+                        </div>
+                        <div class="d-flex justify-content-between small py-1">
+                            <span class="text-muted">Avg Inactivity Days:</span>
+                            <span class="fw-semibold text-danger">{{ s.mean_days_since_purchase }} days</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- CHURN FORECASTING TAB -->
+        <!-- ========================================== -->
+        <div class="tab-panel" id="churn">
+            <div class="row g-4 mb-4">
+                <!-- Left panel: Model selection and metrics -->
+                <div class="col-md-5">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-4"><i class="fa-solid fa-brain me-2"></i>Attrition Predictor Engine</h5>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Classification ML Model</label>
+                            <select id="churnClassifier" class="form-select border-secondary-subtle">
+                                <option value="Random Forest" selected>Random Forest Ensemble</option>
+                                <option value="Decision Tree">Decision Tree Classifier</option>
+                                <option value="Logistic Regression">Logistic Regression (L2 Regularized)</option>
+                                <option value="XGBoost">XGBoost Boosting Machine</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary w-100 fw-bold py-2 shadow-sm mb-4" onclick="updateClassifier()">
+                            <i class="fa-solid fa-gears me-1"></i> Retrain Model
+                        </button>
+
+                        <h6 class="fw-bold mb-3 border-bottom pb-2">Classifier Test-Split Metrics</h6>
+                        <div class="row g-3 text-center">
+                            <div class="col-6">
+                                <div class="p-3 border rounded bg-light">
+                                    <span class="text-muted d-block small fw-medium">Accuracy</span>
+                                    <h4 class="fw-bold mt-1 text-primary m-0" id="metric-accuracy">{{ "{:.1f}%".format(metrics.accuracy * 100) }}</h4>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 border rounded bg-light">
+                                    <span class="text-muted d-block small fw-medium">F1-Score</span>
+                                    <h4 class="fw-bold mt-1 text-teal m-0" id="metric-f1" style="color: var(--accent-teal);">{{ "{:.1f}%".format(metrics.f1_score * 100) }}</h4>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 border rounded bg-light">
+                                    <span class="text-muted d-block small fw-medium">Precision</span>
+                                    <h4 class="fw-bold mt-1 text-success m-0" id="metric-precision">{{ "{:.1f}%".format(metrics.precision * 100) }}</h4>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 border rounded bg-light">
+                                    <span class="text-muted d-block small fw-medium">Recall</span>
+                                    <h4 class="fw-bold mt-1 text-warning m-0" id="metric-recall">{{ "{:.1f}%".format(metrics.recall * 100) }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right panel: Feature Importances -->
+                <div class="col-md-7">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-chart-column me-2"></i>Feature Importances & Core Attribution</h5>
+                        <p class="text-muted small">This chart shows the contribution ratio of each customer parameter on the classifier model's final decision boundary for predicting churn.</p>
+                        <div style="position: relative; height: 320px;">
+                            <canvas id="importanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Retention Strategy Matrices -->
+            <div class="dashboard-card">
+                <h5 class="fw-bold mb-4"><i class="fa-solid fa-arrows-to-eye me-2"></i>Targeted Retention Intervention Matrices</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width: 200px;">Target Cohort</th>
+                                <th style="width: 150px;">Risk Level</th>
+                                <th>Recommended Actionable Marketing / Retention Strategy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold text-slate"><i class="fa-solid fa-crown me-1 text-warning"></i> High Value Customers</td>
+                                <td><span class="badge bg-danger text-white w-100 py-2">High Churn Risk</span></td>
+                                <td>
+                                    <b>VIP Executive Outreach:</b> Direct phone call/personalized outreach by customer success Director. 
+                                    Extend an immediate 30% subscription/licensing renewal discount or high-priority loyalty cash-back voucher (Code: <code>VIPRENEW30</code>). 
+                                    Waive any outstanding late EMI interest fees.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-slate"><i class="fa-solid fa-user me-1 text-primary"></i> Regular Customers</td>
+                                <td><span class="badge bg-danger text-white w-100 py-2">High Churn Risk</span></td>
+                                <td>
+                                    <b>Automated High-Incentive Winback Sequence:</b> Queue 3-stage email marketing sequence offering 20% discount (Code: <code>SAVE20</code>). 
+                                    Suggest highly personalized upsells matching next recommended product categories with extended free tier subscriptions or trial extensions.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-slate"><i class="fa-solid fa-user-clock me-1 text-warning"></i> Any Customer</td>
+                                <td><span class="badge bg-warning text-dark w-100 py-2">Medium Churn Risk</span></td>
+                                <td>
+                                    <b>Customer Feedback & Nurturing Loop:</b> Launch automated CSAT survey to extract pain points. 
+                                    Present a 10% next-order reward code (Code: <code>ENGAGE10</code>) as dynamic booster, and introduce feature improvements/product guides.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold text-slate"><i class="fa-solid fa-user-check me-1 text-success"></i> Any Customer</td>
+                                <td><span class="badge bg-success text-white w-100 py-2">Low Churn Risk</span></td>
+                                <td>
+                                    <b>Standard Relationship Nurturing:</b> Include in standard product updates, newsletter channels, and routine satisfaction checks. 
+                                    Cross-sell pre-approved 0% interest EMI options on upgraded categories (e.g. premium consumer electronics).
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PERSONALIZED RECOMMENDATIONS TAB -->
+        <!-- ========================================== -->
+        <div class="tab-panel" id="recommendations">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <h5 class="fw-bold m-0"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Personalized Recommendation Matrix Engine</h5>
+                <div class="d-flex gap-2">
+                    <input type="text" id="recSearch" class="form-control form-control-sm border-secondary-subtle" style="width: 200px;" placeholder="Filter client name...">
+                    <select id="recSegmentFilter" class="form-select form-select-sm border-secondary-subtle" style="width: 150px;">
+                        <option value="">All Segments</option>
+                        <option value="High Value Customers">High Value</option>
+                        <option value="Regular Customers">Regular</option>
+                        <option value="Occasional Buyers">Occasional</option>
+                        <option value="New Customers">New</option>
+                        <option value="At-Risk Customers">At Risk</option>
+                        <option value="Inactive Customers">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-4" id="recommendationsGrid">
+                <!-- JS populated -->
+                {% for c in customers %}
+                <div class="col-md-6 rec-card-item" data-name="{{ c.name }}" data-segment="{{ c.segment }}">
+                    <div class="dashboard-card h-100 border-start border-4 {% if c.risk_level == 'High' %}border-danger{% elif c.risk_level == 'Medium' %}border-warning{% else %}border-success{% endif %}">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="fw-bold m-0">{{ c.name }}</h5>
+                                <small class="text-muted font-monospace">{{ c.customer_id }} | Segment: <b>{{ c.segment }}</b></small>
+                            </div>
+                            {% if c.risk_level == 'High' %}
+                                <span class="badge bg-danger text-white">Risk: {{ (c.churn_probability*100)|round(1) }}% High</span>
+                            {% elif c.risk_level == 'Medium' %}
+                                <span class="badge bg-warning text-dark">Risk: {{ (c.churn_probability*100)|round(1) }}% Med</span>
+                            {% else %}
+                                <span class="badge bg-success text-white">Risk: {{ (c.churn_probability*100)|round(1) }}% Low</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <div class="p-2 border rounded h-100">
+                                    <small class="text-muted d-block font-weight-bold"><i class="fa-solid fa-cart-arrow-down me-1 text-primary"></i>Predicted Next Purchases</small>
+                                    <span class="fw-bold small text-slate">{{ c.predicted_next_product }}</span>
+                                    <div class="small text-muted mt-1">Est. spending: <b>${{ c.predicted_spending }}</b></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-2 border rounded h-100">
+                                    <small class="text-muted d-block font-weight-bold"><i class="fa-solid fa-coins me-1 text-warning"></i>Loyalty Rewards Status</small>
+                                    <span class="small fw-semibold text-truncate d-block">{{ c.loyalty_reward }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-2 border rounded h-100">
+                                    <small class="text-muted d-block font-weight-bold"><i class="fa-solid fa-tags me-1 text-success"></i>Promo Discount Voucher</small>
+                                    <span class="small text-success font-monospace fw-bold">{{ c.discount_offer }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-2 border rounded h-100">
+                                    <small class="text-muted d-block font-weight-bold"><i class="fa-solid fa-calendar-check me-1 text-primary"></i>EMI / Subscription Status</small>
+                                    <span class="small d-block text-truncate">{{ c.renewal_reminder }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 p-2 bg-light rounded border">
+                            <small class="text-muted d-block fw-semibold mb-1"><i class="fa-solid fa-bullseye me-1 text-teal"></i>Tailored Win-Back Strategy:</small>
+                            <span class="small text-secondary-emphasis">{{ c.retention_strategy }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- MARKET TRENDS TAB -->
+        <!-- ========================================== -->
+        <div class="tab-panel" id="market">
+            <div class="row g-4 mb-4">
+                <!-- Demand Forecasting Table -->
+                <div class="col-md-6">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-4"><i class="fa-solid fa-chart-column me-2"></i>Product Category Demand Forecasting</h5>
+                        <p class="text-muted small">Predicts estimated physical item demand (units) for the upcoming business month computed via historical engagement metrics.</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr class="table-secondary">
+                                        <th>Product Category</th>
+                                        <th>Current Mo Avg</th>
+                                        <th>Projected Demand</th>
+                                        <th>Growth Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="demandForecastTableBody">
+                                    {% for df in market_analysis.demand_forecast %}
+                                    <tr>
+                                        <td class="fw-bold text-slate">{{ df.product }}</td>
+                                        <td>{{ df.current_monthly_average }} units</td>
+                                        <td class="fw-semibold text-primary">{{ df.projected_next_month_demand }} units</td>
+                                        <td>
+                                            {% if df.growth_trend == 'Increasing' %}
+                                                <span class="text-success fw-bold"><i class="fa-solid fa-circle-chevron-up"></i> Increasing</span>
+                                            {% else %}
+                                                <span class="text-warning fw-bold"><i class="fa-solid fa-circle-minus"></i> Stable / Down</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seasonal trends -->
+                <div class="col-md-6">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-4"><i class="fa-solid fa-snowflake-sun me-2"></i>Seasonal Purchase Trends Analysis</h5>
+                        <p class="text-muted small">Tracks client transaction volume distribution across seasonal quadrants (Summer, Spring, Autumn, Winter).</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr class="table-secondary">
+                                        <th>Season Quarter</th>
+                                        <th>Transactions Vol</th>
+                                        <th>Accumulated Sales</th>
+                                        <th>Share Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="seasonalTrendsTableBody">
+                                    {% for s in market_analysis.seasonal_trends %}
+                                    <tr>
+                                        <td class="fw-bold text-slate">{{ s.season }}</td>
+                                        <td>{{ s.units_sold }} transactions</td>
+                                        <td class="fw-semibold">${{ "{:,.2f}".format(s.revenue) }}</td>
+                                        <td>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar bg-teal" role="progressbar" style="width: {{ (s.revenue / total_revenue * 100)|round(1) }}%; background-color: var(--accent-teal);" aria-valuenow="{{ (s.revenue / total_revenue * 100)|round(1) }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <span class="small text-muted">{{ (s.revenue / total_revenue * 100)|round(1) }}% share</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue forecasting line chart -->
+            <div class="dashboard-card">
+                <h5 class="fw-bold mb-4"><i class="fa-solid fa-chart-line me-2"></i>Rolling 6-Month Projected Revenue Growth Forecasting</h5>
+                <div style="position: relative; height: 350px;">
+                    <canvas id="marketRevenueForecastChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- REPORTS & DATA TAB -->
+        <!-- ========================================== -->
+        <div class="tab-panel" id="reports">
+            <div class="row g-4">
+                <!-- Upload Dataset -->
+                <div class="col-md-6">
+                    <div class="dashboard-card h-100">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-arrow-up me-2"></i>Upload Customer Spreadsheet</h5>
+                        <p class="text-muted small">Import your company's customer dataset. Upload columns (Customer ID, Name, Income, Purchase Amount, EMI status, subscription details) as CSV formats.</p>
+                        
+                        <form action="/upload_csv" method="POST" enctype="multipart/form-data" class="mt-4" onsubmit="showLoader()">
+                            <div class="mb-4">
+                                <label for="formFile" class="form-label fw-bold">Select CSV Spreadsheet File</label>
+                                <input class="form-control" type="file" id="formFile" name="dataset" accept=".csv" required>
+                            </div>
+                            <button type="submit" class="btn btn-teal text-white fw-bold py-2 px-4 rounded shadow-sm w-100" style="background-color: var(--accent-teal);">
+                                <i class="fa-solid fa-upload me-1"></i> Parse & Populate Platform
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Export Executive Reports -->
+                <div class="col-md-6">
+                    <div class="dashboard-card h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-invoice-dollar me-2"></i>Executive Reports Downloads</h5>
+                            <p class="text-muted small">Export compiled machine learning predictions, cluster segmentations, forecasted client values, and actionable marketing solutions instantly.</p>
+                        </div>
+                        
+                        <div class="d-grid gap-3 mt-4">
+                            <a href="/download/pdf" class="btn btn-primary fw-bold py-3 text-start px-4 d-flex justify-content-between align-items-center shadow-sm">
+                                <span><i class="fa-solid fa-file-pdf me-2"></i> PDF Executive Strategy Report</span>
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                            <a href="/download/excel" class="btn btn-teal text-white fw-bold py-3 text-start px-4 d-flex justify-content-between align-items-center shadow-sm" style="background-color: var(--accent-teal);">
+                                <span><i class="fa-solid fa-file-excel me-2"></i> Excel Cohorts & Risk Database</span>
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CUSTOMER ADD/EDIT MODAL -->
+    <!-- ========================================== -->
+    <div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="customerForm" onsubmit="saveCustomer(event)">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title fw-bold" id="customerModalLabel"><i class="fa-solid fa-user-plus me-2"></i> Add Customer Profile</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Customer ID <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="customer_id" id="form-customer_id" placeholder="CUST-1051" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Customer Full Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="name" id="form-name" placeholder="Johnathan Doe" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Age <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="age" id="form-age" min="18" max="100" value="35" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Gender <span class="text-danger">*</span></label>
+                                <select class="form-select" name="gender" id="form-gender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Non-binary">Non-binary</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Location / City <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="location" id="form-location" placeholder="New York" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Annual Income ($) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="income" id="form-income" min="0" value="65000" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Engagement Score (1-10) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="engagement_score" id="form-engagement_score" min="1" max="10" value="6" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Product Category Purchased <span class="text-danger">*</span></label>
+                                <select class="form-select" name="product_purchased" id="form-product_purchased">
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Fashion">Fashion</option>
+                                    <option value="Home Appliances">Home Appliances</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Fitness Gear">Fitness Gear</option>
+                                    <option value="Beauty Products">Beauty Products</option>
+                                    <option value="Sports Equipment">Sports Equipment</option>
+                                    <option value="Office Supplies">Office Supplies</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Purchase Amount ($) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="purchase_amount" id="form-purchase_amount" step="0.01" min="1" value="250" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Annual Purchase Frequency <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="purchase_frequency" id="form-purchase_frequency" min="1" value="8" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Customer Satisfaction Score (1-5) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="customer_satisfaction_score" id="form-customer_satisfaction_score" min="1" max="5" value="4" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">EMI Monthly Amount ($)</label>
+                                <input type="number" class="form-control" name="emi_amount" id="form-emi_amount" step="0.01" value="0">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">EMI Tenure (Months)</label>
+                                <input type="number" class="form-control" name="emi_tenure" id="form-emi_tenure" value="0">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">EMI Status</label>
+                                <select class="form-select" name="emi_status" id="form-emi_status">
+                                    <option value="N/A">N/A</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Defaulted">Defaulted</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Subscription Tier</label>
+                                <select class="form-select" name="subscription_type" id="form-subscription_type">
+                                    <option value="None">None</option>
+                                    <option value="Basic">Basic</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Premium">Premium</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Subscription Expiry Date</label>
+                                <input type="text" class="form-control" name="subscription_expiry_date" id="form-subscription_expiry_date" placeholder="YYYY-MM-DD or N/A" value="N/A">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Last Purchase Date</label>
+                                <input type="date" class="form-control" name="last_purchase_date" id="form-last_purchase_date">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Attrition / Churned Status</label>
+                                <select class="form-select" name="churned" id="form-churned">
+                                    <option value="0">Active Customer (0)</option>
+                                    <option value="1">Churned Customer (1)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-dark">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    <!-- App JavaScript for AJAX and Charts -->
+    <script>
+        // Store full customers JSON list
+        let rawCustomers = {{ customers | tojson }};
+        let activeTab = "overview";
+        
+        // Pagination state
+        let currentPage = 1;
+        const rowsPerPage = 10;
+        let filteredCustomers = [...rawCustomers];
+
+        // Global Chart instances to safely destroy before updating
+        let churnPieChart, revenueTrendChart, productSalesChart, segmentPieChart, pcaScatterChart, importanceChart, marketRevenueForecastChart;
+
+        // On document loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            initNavigation();
+            initCharts();
+            renderTable();
+            setupFilters();
+            
+            // Set default date picker value to today
+            document.getElementById("form-last_purchase_date").value = new Date().toISOString().substring(0, 10);
+        });
+
+        function showLoader() {
+            document.getElementById("loadingOverlay").style.display = "flex";
+        }
+
+        function hideLoader() {
+            document.getElementById("loadingOverlay").style.display = "none";
+        }
+
+        // Navigation Menu Handling
+        function initNavigation() {
+            const menuLinks = document.querySelectorAll(".sidebar-menu li a");
+            menuLinks.forEach(link => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    
+                    // Remove active classes
+                    menuLinks.forEach(l => l.classList.remove("active"));
+                    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+                    
+                    // Set active
+                    link.classList.add("active");
+                    const tabId = link.getAttribute("data-tab");
+                    document.getElementById(tabId).classList.add("active");
+                    
+                    // Update header title
+                    document.getElementById("pageTitle").innerText = link.querySelector("span").innerText;
+                    activeTab = tabId;
+                });
+            });
+        }
+
+        // Setup live search and segment filters
+        function setupFilters() {
+            const searchInput = document.getElementById("custSearchInput");
+            const segmentFilter = document.getElementById("segmentFilter");
+            const riskFilter = document.getElementById("riskFilter");
+            
+            const handleFilterChange = () => {
+                const searchVal = searchInput.value.toLowerCase();
+                const segVal = segmentFilter.value;
+                const riskVal = riskFilter.value;
+                
+                filteredCustomers = rawCustomers.filter(c => {
+                    const matchSearch = c.name.toLowerCase().includes(searchVal) || c.location.toLowerCase().includes(searchVal) || c.customer_id.toLowerCase().includes(searchVal);
+                    const matchSeg = segVal === "" || c.segment === segVal;
+                    const matchRisk = riskVal === "" || c.risk_level === riskVal;
+                    return matchSearch && matchSeg && matchRisk;
+                });
+                
+                currentPage = 1;
+                renderTable();
+            };
+
+            searchInput.addEventListener("input", handleFilterChange);
+            segmentFilter.addEventListener("change", handleFilterChange);
+            riskFilter.addEventListener("change", handleFilterChange);
+            
+            // Recommendations Tab Filters
+            const recSearch = document.getElementById("recSearch");
+            const recSegmentFilter = document.getElementById("recSegmentFilter");
+            
+            const handleRecFilter = () => {
+                const searchVal = recSearch.value.toLowerCase();
+                const segVal = recSegmentFilter.value;
+                
+                const cards = document.querySelectorAll(".rec-card-item");
+                cards.forEach(card => {
+                    const name = card.getAttribute("data-name").toLowerCase();
+                    const segment = card.getAttribute("data-segment");
+                    
+                    const matchName = name.includes(searchVal);
+                    const matchSeg = segVal === "" || segment === segVal;
+                    
+                    if (matchName && matchSeg) {
+                        card.style.display = "block";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            };
+            
+            recSearch.addEventListener("input", handleRecFilter);
+            recSegmentFilter.addEventListener("change", handleRecFilter);
+        }
+
+        // Custom local table renderer with pagination
+        function renderTable() {
+            const tbody = document.getElementById("customerTableBody");
+            tbody.innerHTML = "";
+            
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = Math.min(startIndex + rowsPerPage, filteredCustomers.length);
+            const paginatedRows = filteredCustomers.slice(startIndex, endIndex);
+            
+            if (paginatedRows.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">No client records found matching search matrices.</td></tr>`;
+                document.getElementById("tablePageStats").innerText = "Showing 0 accounts";
+                renderPagination(0);
+                return;
+            }
+            
+            paginatedRows.forEach(c => {
+                let segBadge = "";
+                if (c.segment === 'High Value Customers') {
+                    segBadge = `<span class="badge badge-segment segment-high-value">High Value</span>`;
+                } else if (c.segment === 'Regular Customers') {
+                    segBadge = `<span class="badge badge-segment segment-regular">Regular</span>`;
+                } else if (c.segment === 'Occasional Buyers') {
+                    segBadge = `<span class="badge badge-segment segment-occasional">Occasional</span>`;
+                } else if (c.segment === 'New Customers') {
+                    segBadge = `<span class="badge badge-segment segment-new">New Customer</span>`;
+                } else if (c.segment === 'At-Risk Customers') {
+                    segBadge = `<span class="badge badge-segment segment-at-risk">At Risk</span>`;
+                } else {
+                    segBadge = `<span class="badge badge-segment segment-inactive">Inactive</span>`;
+                }
+                
+                let riskBadge = "";
+                const probPerc = (c.churn_probability * 100).toFixed(1);
+                if (c.risk_level === 'High') {
+                    riskBadge = `<span class="badge badge-risk risk-high-badge">${probPerc}% High</span>`;
+                } else if (c.risk_level === 'Medium') {
+                    riskBadge = `<span class="badge badge-risk risk-medium-badge">${probPerc}% Med</span>`;
+                } else {
+                    riskBadge = `<span class="badge badge-risk risk-low-badge">${probPerc}% Low</span>`;
+                }
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td>
+                            <div class="fw-bold text-slate">${c.name}</div>
+                            <small class="text-muted font-monospace">${c.customer_id}</small>
+                        </td>
+                        <td>
+                            <div>${c.gender}, ${c.age} yrs</div>
+                            <small class="text-muted"><i class="fa-solid fa-location-dot me-1"></i>${c.location}</small>
+                        </td>
+                        <td>
+                            <div>Inc: <b>$${c.income.toLocaleString(undefined, {minimumFractionDigits: 0})}</b></div>
+                            <small class="text-muted">CLV: $${parseFloat(c.clv).toLocaleString(undefined, {maximumFractionDigits: 0})}</small>
+                        </td>
+                        <td>
+                            <div class="fw-semibold">${c.product_purchased}</div>
+                            <small class="text-muted">$${c.purchase_amount.toFixed(2)} | Freq: ${c.purchase_frequency}/yr</small>
+                        </td>
+                        <td>
+                            <div>Eng: <b class="text-primary">${c.engagement_score}/10</b></div>
+                            <small class="text-muted">CSAT: ${c.customer_satisfaction_score}/5</small>
+                        </td>
+                        <td>${segBadge}</td>
+                        <td>${riskBadge}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="editCustomer('${c.customer_id}')" title="Edit Customer Details"><i class="fa-solid fa-pencil"></i></button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="deleteCustomer('${c.customer_id}')" title="Delete Customer Account"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            // Update metrics
+            document.getElementById("tablePageStats").innerText = `Showing ${startIndex + 1} to ${endIndex} of ${filteredCustomers.length} accounts`;
+            renderPagination(filteredCustomers.length);
+        }
+
+        function renderPagination(totalRows) {
+            const paginationUl = document.getElementById("tablePagination");
+            paginationUl.innerHTML = "";
+            
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+            if (totalPages <= 1) return;
+            
+            // Prev button
+            paginationUl.innerHTML += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage - 1})"><i class="fa-solid fa-chevron-left"></i></a>
+                </li>
+            `;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationUl.innerHTML += `
+                        <li class="page-item ${currentPage === i ? 'active' : ''}">
+                            <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                        </li>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationUl.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                }
+            }
+            
+            // Next button
+            paginationUl.innerHTML += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${currentPage + 1})"><i class="fa-solid fa-chevron-right"></i></a>
+                </li>
+            `;
+        }
+
+        window.changePage = function(page) {
+            currentPage = page;
+            renderTable();
+        };
+
+        // CRUD Operations
+        window.clearCustomerForm = function() {
+            document.getElementById("customerModalLabel").innerText = "Add Customer Profile";
+            document.getElementById("customerForm").reset();
+            document.getElementById("form-customer_id").readOnly = false;
+            document.getElementById("form-last_purchase_date").value = new Date().toISOString().substring(0, 10);
+        };
+
+        window.editCustomer = function(customer_id) {
+            const c = rawCustomers.find(item => item.customer_id === customer_id);
+            if (!c) return;
+            
+            document.getElementById("customerModalLabel").innerText = "Edit Customer Profile";
+            document.getElementById("form-customer_id").value = c.customer_id;
+            document.getElementById("form-customer_id").readOnly = true;
+            document.getElementById("form-name").value = c.name;
+            document.getElementById("form-age").value = c.age;
+            document.getElementById("form-gender").value = c.gender;
+            document.getElementById("form-location").value = c.location;
+            document.getElementById("form-income").value = c.income;
+            document.getElementById("form-engagement_score").value = c.engagement_score;
+            document.getElementById("form-product_purchased").value = c.product_purchased;
+            document.getElementById("form-purchase_amount").value = c.purchase_amount;
+            document.getElementById("form-purchase_frequency").value = c.purchase_frequency;
+            document.getElementById("form-customer_satisfaction_score").value = c.customer_satisfaction_score;
+            document.getElementById("form-emi_amount").value = c.emi_amount;
+            document.getElementById("form-emi_tenure").value = c.emi_tenure;
+            document.getElementById("form-emi_status").value = c.emi_status;
+            document.getElementById("form-subscription_type").value = c.subscription_type;
+            document.getElementById("form-subscription_expiry_date").value = c.subscription_expiry_date;
+            document.getElementById("form-last_purchase_date").value = c.last_purchase_date;
+            document.getElementById("form-churned").value = (c.churn_probability > 0.5) ? "1" : "0";
+            
+            // Trigger Bootstrap modal
+            const myModal = new bootstrap.Modal(document.getElementById('customerModal'));
+            myModal.show();
+        };
+
+        window.saveCustomer = function(event) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById("customerForm"));
+            
+            showLoader();
+            
+            fetch("/api/add_customer", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Close Modal
+                    const modalEl = document.getElementById('customerModal');
+                    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                    if (modalInstance) modalInstance.hide();
+                    
+                    // Reload data dynamically
+                    triggerDataUpdate();
+                } else {
+                    alert("Error saving account: " + data.error);
+                    hideLoader();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Server communication failure.");
+                hideLoader();
+            });
+        };
+
+        window.deleteCustomer = function(customer_id) {
+            if (!confirm(`Are you sure you want to permanently delete customer account: ${customer_id}?`)) return;
+            
+            showLoader();
+            fetch(`/api/delete_customer/${customer_id}`, {
+                method: "DELETE"
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    triggerDataUpdate();
+                } else {
+                    alert("Deletion failure: " + data.error);
+                    hideLoader();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                hideLoader();
+            });
+        };
+
+        // Redraw page charts
+        function initCharts() {
+            // Churn Pie Chart
+            const churnCtx = document.getElementById("churnPieChart").getContext("2d");
+            const riskCounts = { High: 0, Medium: 0, Low: 0 };
+            rawCustomers.forEach(c => riskCounts[c.risk_level]++);
+            
+            churnPieChart = new Chart(churnCtx, {
+                type: "doughnut",
+                data: {
+                    labels: ["High Risk", "Medium Risk", "Low Risk"],
+                    datasets: [{
+                        data: [riskCounts.High, riskCounts.Medium, riskCounts.Low],
+                        backgroundColor: ["#f87171", "#fbbf24", "#34d399"],
+                        borderWidth: 2,
+                        borderColor: "#ffffff"
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: "bottom" }
+                    }
+                }
+            });
+
+            // Product Revenue Chart
+            const prodRevenue = {};
+            rawCustomers.forEach(c => {
+                prodRevenue[c.product_purchased] = (prodRevenue[c.product_purchased] || 0) + c.purchase_amount;
+            });
+            const sortedProdKeys = Object.keys(prodRevenue).sort((a,b) => prodRevenue[b] - prodRevenue[a]);
+            const prodSalesCtx = document.getElementById("productSalesChart").getContext("2d");
+            productSalesChart = new Chart(prodSalesCtx, {
+                type: "bar",
+                data: {
+                    labels: sortedProdKeys,
+                    datasets: [{
+                        label: "Total Sales Revenue ($)",
+                        data: sortedProdKeys.map(k => prodRevenue[k]),
+                        backgroundColor: "#0d9488",
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Cohort segment pie chart
+            const segCounts = {};
+            rawCustomers.forEach(c => {
+                segCounts[c.segment] = (segCounts[c.segment] || 0) + 1;
+            });
+            const segPieCtx = document.getElementById("segmentPieChart").getContext("2d");
+            segmentPieChart = new Chart(segPieCtx, {
+                type: "pie",
+                data: {
+                    labels: Object.keys(segCounts),
+                    datasets: [{
+                        data: Object.values(segCounts),
+                        backgroundColor: ["#60a5fa", "#38bdf8", "#94a3b8", "#4ade80", "#f87171", "#fb923c"],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: "bottom" }
+                    }
+                }
+            });
+
+            // Revenue Projection Chart
+            const revFore = {{ market_analysis.revenue_forecast | tojson }};
+            const revTrendCtx = document.getElementById("revenueTrendChart").getContext("2d");
+            revenueTrendChart = new Chart(revTrendCtx, {
+                type: "line",
+                data: {
+                    labels: revFore.map(f => f.month),
+                    datasets: [{
+                        label: "Forecasted Revenue Growth ($)",
+                        data: revFore.map(f => f.forecasted_revenue),
+                        borderColor: "#3b82f6",
+                        backgroundColor: "rgba(59, 130, 246, 0.05)",
+                        fill: true,
+                        tension: 0.3,
+                        borderWidth: 3,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: false }
+                    }
+                }
+            });
+
+            // PCA Scatter Plot
+            const pcaCtx = document.getElementById("pcaScatterChart").getContext("2d");
+            const pcaDatasets = {};
+            rawCustomers.forEach(c => {
+                const seg = c.segment;
+                if (!pcaDatasets[seg]) {
+                    pcaDatasets[seg] = {
+                        label: seg,
+                        data: [],
+                        backgroundColor: getSegmentColor(seg),
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    };
+                }
+                // If PC1 and PC2 don't exist yet, make a mock or let it fill
+                const xVal = c.PC1 !== undefined ? c.PC1 : (c.income / 30000 - 3);
+                const yVal = c.PC2 !== undefined ? c.PC2 : (c.purchase_frequency / 5 - 2);
+                pcaDatasets[seg].data.push({ x: xVal, y: yVal, label: c.name });
+            });
+
+            pcaScatterChart = new Chart(pcaCtx, {
+                type: "scatter",
+                data: {
+                    datasets: Object.values(pcaDatasets)
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    return `${context.raw.label} (PC1: ${context.raw.x.toFixed(2)}, PC2: ${context.raw.y.toFixed(2)})`;
+                                }
+                            }
+                        },
+                        legend: { position: "right" }
+                    },
+                    scales: {
+                        x: { grid: { color: "#f1f5f9" } },
+                        y: { grid: { color: "#f1f5f9" } }
+                    }
+                }
+            });
+
+            // Feature Importance
+            const impCtx = document.getElementById("importanceChart").getContext("2d");
+            const impData = {{ importances | tojson }};
+            const sortedImpKeys = Object.keys(impData).slice(0, 10);
+            
+            importanceChart = new Chart(impCtx, {
+                type: "bar",
+                data: {
+                    labels: sortedImpKeys,
+                    datasets: [{
+                        label: "Importance Weight Index",
+                        data: sortedImpKeys.map(k => impData[k]),
+                        backgroundColor: "#3b82f6",
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: "y",
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Market Revenue forecast line plot
+            const mktRevCtx = document.getElementById("marketRevenueForecastChart").getContext("2d");
+            marketRevenueForecastChart = new Chart(mktRevCtx, {
+                type: "line",
+                data: {
+                    labels: revFore.map(f => f.month),
+                    datasets: [{
+                        label: "Market Revenue Projections ($)",
+                        data: revFore.map(f => f.forecasted_revenue),
+                        borderColor: "#0d9488",
+                        backgroundColor: "rgba(13, 148, 136, 0.08)",
+                        fill: true,
+                        tension: 0.1,
+                        borderWidth: 3,
+                        pointRadius: 5,
+                        pointBackgroundColor: "#0d9488"
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { grid: { color: "#f1f5f9" } }
+                    }
+                }
+            });
+        }
+
+        // Helper segment colors
+        function getSegmentColor(seg) {
+            switch(seg) {
+                case "High Value Customers": return "#3b82f6";
+                case "Regular Customers": return "#0ea5e9";
+                case "Occasional Buyers": return "#64748b";
+                case "New Customers": return "#10b981";
+                case "At-Risk Customers": return "#ef4444";
+                default: return "#f97316";
+            }
+        }
+
+        // Update Clustering dynamically (KMeans / Hierarchical parameters)
+        window.updateClustering = function() {
+            const numVal = document.getElementById("numClusters").value;
+            const algoVal = document.querySelector('input[name="clusterAlgo"]:checked').value;
+            
+            document.getElementById("numClustersVal").innerText = `${numVal} Clusters`;
+            
+            showLoader();
+            
+            const classifierVal = document.getElementById("churnClassifier").value;
+            
+            fetch("/api/get_analytics", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    classifier: classifierVal,
+                    clustering_algo: algoVal,
+                    num_clusters: numVal
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                updateFrontendVariables(data);
+                hideLoader();
+            })
+            .catch(err => {
+                console.error(err);
+                hideLoader();
+                alert("Failed to update clustering model.");
+            });
+        };
+
+        // Update classifier dynamically
+        window.updateClassifier = function() {
+            const classifierVal = document.getElementById("churnClassifier").value;
+            const numVal = document.getElementById("numClusters").value;
+            const algoVal = document.querySelector('input[name="clusterAlgo"]:checked').value;
+            
+            showLoader();
+            
+            fetch("/api/get_analytics", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    classifier: classifierVal,
+                    clustering_algo: algoVal,
+                    num_clusters: numVal
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                updateFrontendVariables(data);
+                hideLoader();
+            })
+            .catch(err => {
+                console.error(err);
+                hideLoader();
+                alert("Failed to train model.");
+            });
+        };
+
+        // Standard dynamic trigger for DB mutations
+        function triggerDataUpdate() {
+            const classifierVal = document.getElementById("churnClassifier").value;
+            const numVal = document.getElementById("numClusters").value;
+            const algoVal = document.querySelector('input[name="clusterAlgo"]:checked').value;
+            
+            fetch("/api/get_analytics", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    classifier: classifierVal,
+                    clustering_algo: algoVal,
+                    num_clusters: numVal
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                updateFrontendVariables(data);
+                hideLoader();
+            })
+            .catch(err => {
+                console.error(err);
+                hideLoader();
+            });
+        }
+
+        // Shared function to update all JS arrays, tables, KPI numbers and charts
+        function updateFrontendVariables(data) {
+            rawCustomers = data.customers;
+            filteredCustomers = [...rawCustomers];
+            
+            // 1. Update KPI labels
+            const revSum = data.market_analysis.total_revenue;
+            document.getElementById("kpi-revenue").innerText = `$${revSum.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById("kpi-customers").innerText = rawCustomers.length;
+            document.getElementById("kpi-high-risk").innerText = data.high_risk_count;
+            
+            const engMean = rawCustomers.reduce((acc, c) => acc + c.engagement_score, 0) / rawCustomers.length;
+            document.getElementById("kpi-engagement").innerText = `${engMean.toFixed(2)}/10`;
+            
+            const subCount = rawCustomers.filter(c => c.subscription_type !== "None").length;
+            document.getElementById("kpi-subs").innerText = subCount;
+            
+            // 2. Update accuracy labels
+            document.getElementById("metric-accuracy").innerText = `${(data.metrics.accuracy * 100).toFixed(1)}%`;
+            document.getElementById("metric-f1").innerText = `${(data.metrics.f1_score * 100).toFixed(1)}%`;
+            document.getElementById("metric-precision").innerText = `${(data.metrics.precision * 100).toFixed(1)}%`;
+            document.getElementById("metric-recall").innerText = `${(data.metrics.recall * 100).toFixed(1)}%`;
+            
+            // 3. Re-render directory table
+            currentPage = 1;
+            renderTable();
+            
+            // 4. Update Segment cards dynamically
+            const segCardRow = document.getElementById("segmentCardsRow");
+            segCardRow.innerHTML = "";
+            data.segment_stats.forEach(s => {
+                segCardRow.innerHTML += `
+                    <div class="col-md-4">
+                        <div class="dashboard-card h-100 border-top border-4 border-teal">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <span class="badge badge-segment segment-regular">${s.label}</span>
+                                <span class="fw-bold text-teal" style="font-size: 1.15rem;">${s.percentage}%</span>
+                            </div>
+                            <h6 class="text-muted small mb-3">Cohort Size: <b>${s.size} Customers</b></h6>
+                            <hr class="my-2 border-slate-subtle">
+                            <div class="d-flex justify-content-between small py-1">
+                                <span class="text-muted">Avg Income:</span>
+                                <span class="fw-semibold">$${s.mean_income.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                            </div>
+                            <div class="d-flex justify-content-between small py-1">
+                                <span class="text-muted">Avg Purchase Size:</span>
+                                <span class="fw-semibold">$${s.mean_purchase_amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                            </div>
+                            <div class="d-flex justify-content-between small py-1">
+                                <span class="text-muted">Avg Purchase Freq:</span>
+                                <span class="fw-semibold">${s.mean_purchase_frequency.toFixed(1)} purchases/yr</span>
+                            </div>
+                            <div class="d-flex justify-content-between small py-1">
+                                <span class="text-muted">Avg Engagement:</span>
+                                <span class="fw-semibold text-primary">${s.mean_engagement.toFixed(1)}/10</span>
+                            </div>
+                            <div class="d-flex justify-content-between small py-1">
+                                <span class="text-muted">Avg Inactivity Days:</span>
+                                <span class="fw-semibold text-danger">${s.mean_days_since_purchase.toFixed(1)} days</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // 5. Update Recommendations cards
+            const recGrid = document.getElementById("recommendationsGrid");
+            recGrid.innerHTML = "";
+            rawCustomers.forEach(c => {
+                const borderClass = c.risk_level === 'High' ? 'border-danger' : (c.risk_level === 'Medium' ? 'border-warning' : 'border-success');
+                const riskBadgeClass = c.risk_level === 'High' ? 'bg-danger text-white' : (c.risk_level === 'Medium' ? 'bg-warning text-dark' : 'bg-success text-white');
+                const probPerc = (c.churn_probability * 100).toFixed(1);
+                
+                recGrid.innerHTML += `
+                    <div class="col-md-6 rec-card-item" data-name="${c.name}" data-segment="${c.segment}">
+                        <div class="dashboard-card h-100 border-start border-4 ${borderClass}">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="fw-bold m-0">${c.name}</h5>
+                                    <small class="text-muted font-monospace">${c.customer_id} | Segment: <b>${c.segment}</b></small>
+                                </div>
+                                <span class="badge ${riskBadgeClass}">Risk: ${probPerc}% ${c.risk_level}</span>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <div class="p-2 border rounded h-100">
+                                        <small class="text-muted d-block font-weight-bold"><i class="fa-solid fa-cart-arrow-down me-1 text-primary"></i>Predicted Next Purchases</small>
+                                        <span class="fw-bold small text-slate">${c.predicted_next_product}</span>
+                                        <div class="small text-muted mt-1">Est. spending: <b>$${c.predicted_spending}</b></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="p-2 border rounded h-100">
+                                        <small class="text-muted d-block font-weight-bold"><i class="fa-solid fa-coins me-1 text-warning"></i>Loyalty Rewards Status</small>
+                                        <span class="small fw-semibold text-truncate d-block">${c.loyalty_reward}</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="p-2 border rounded h-100">
+                                        <small class="text-muted d-block font-weight-bold"><i class="fa-solid fa-tags me-1 text-success"></i>Promo Discount Voucher</small>
+                                        <span class="small text-success font-monospace fw-bold">${c.discount_offer}</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="p-2 border rounded h-100">
+                                        <small class="text-muted d-block font-weight-bold"><i class="fa-solid fa-calendar-check me-1 text-primary"></i>EMI / Subscription Status</small>
+                                        <span class="small d-block text-truncate">${c.renewal_reminder}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 p-2 bg-light rounded border">
+                                <small class="text-muted d-block fw-semibold mb-1"><i class="fa-solid fa-bullseye me-1 text-teal"></i>Tailored Win-Back Strategy:</small>
+                                <span class="small text-secondary-emphasis">${c.retention_strategy}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // 6. Update Market Demand Table
+            const demandTbody = document.getElementById("demandForecastTableBody");
+            demandTbody.innerHTML = "";
+            data.market_analysis.demand_forecast.forEach(df => {
+                const trendBadge = df.growth_trend === 'Increasing' ? 
+                    `<span class="text-success fw-bold"><i class="fa-solid fa-circle-chevron-up"></i> Increasing</span>` :
+                    `<span class="text-warning fw-bold"><i class="fa-solid fa-circle-minus"></i> Stable / Down</span>`;
+                demandTbody.innerHTML += `
+                    <tr>
+                        <td class="fw-bold text-slate">${df.product}</td>
+                        <td>${df.current_monthly_average} units</td>
+                        <td class="fw-semibold text-primary">${df.projected_next_month_demand} units</td>
+                        <td>${trendBadge}</td>
+                    </tr>
+                `;
+            });
+
+            // 7. Update Market Seasonal Table
+            const seasonalTbody = document.getElementById("seasonalTrendsTableBody");
+            seasonalTbody.innerHTML = "";
+            data.market_analysis.seasonal_trends.forEach(s => {
+                const sharePerc = (s.revenue / revSum * 100).toFixed(1);
+                seasonalTbody.innerHTML += `
+                    <tr>
+                        <td class="fw-bold text-slate">${s.season}</td>
+                        <td>${s.units_sold} transactions</td>
+                        <td class="fw-semibold">$${s.revenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-teal" role="progressbar" style="width: ${sharePerc}%; background-color: var(--accent-teal);" aria-valuenow="${sharePerc}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="small text-muted">${sharePerc}% share</span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // 8. Re-draw all active Chart.js instances
+            // Churn Pie
+            const riskCounts = { High: 0, Medium: 0, Low: 0 };
+            rawCustomers.forEach(c => riskCounts[c.risk_level]++);
+            churnPieChart.data.datasets[0].data = [riskCounts.High, riskCounts.Medium, riskCounts.Low];
+            churnPieChart.update();
+            
+            // Product Sales
+            const prodRevenue = {};
+            rawCustomers.forEach(c => {
+                prodRevenue[c.product_purchased] = (prodRevenue[c.product_purchased] || 0) + c.purchase_amount;
+            });
+            const sortedProdKeys = Object.keys(prodRevenue).sort((a,b) => prodRevenue[b] - prodRevenue[a]);
+            productSalesChart.data.labels = sortedProdKeys;
+            productSalesChart.data.datasets[0].data = sortedProdKeys.map(k => prodRevenue[k]);
+            productSalesChart.update();
+
+            // Cohort segment
+            const segCounts = {};
+            rawCustomers.forEach(c => {
+                segCounts[c.segment] = (segCounts[c.segment] || 0) + 1;
+            });
+            segmentPieChart.data.labels = Object.keys(segCounts);
+            segmentPieChart.data.datasets[0].data = Object.values(segCounts);
+            segmentPieChart.update();
+
+            // Revenue Projections
+            revenueTrendChart.data.labels = data.market_analysis.revenue_forecast.map(f => f.month);
+            revenueTrendChart.data.datasets[0].data = data.market_analysis.revenue_forecast.map(f => f.forecasted_revenue);
+            revenueTrendChart.update();
+
+            marketRevenueForecastChart.data.labels = data.market_analysis.revenue_forecast.map(f => f.month);
+            marketRevenueForecastChart.data.datasets[0].data = data.market_analysis.revenue_forecast.map(f => f.forecasted_revenue);
+            marketRevenueForecastChart.update();
+
+            // PCA Scatter
+            const pcaDatasets = {};
+            rawCustomers.forEach(c => {
+                const seg = c.segment;
+                if (!pcaDatasets[seg]) {
+                    pcaDatasets[seg] = {
+                        label: seg,
+                        data: [],
+                        backgroundColor: getSegmentColor(seg),
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    };
+                }
+                pcaDatasets[seg].data.push({ x: c.PC1, y: c.PC2, label: c.name });
+            });
+            pcaScatterChart.data.datasets = Object.values(pcaDatasets);
+            pcaScatterChart.update();
+
+            // Feature importances
+            const sortedImpKeys = Object.keys(data.importances).slice(0, 10);
+            importanceChart.data.labels = sortedImpKeys;
+            importanceChart.data.datasets[0].data = sortedImpKeys.map(k => data.importances[k]);
+            importanceChart.update();
+        }
+    </script>
+</body>
+</html>
